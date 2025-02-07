@@ -1,7 +1,7 @@
 <template>
   <header class="galaxy-header">
     <div class="header-content">
-      <h1 class="galaxy-logo">LONGHA</h1>
+      <h1 class="galaxy-logo"> </h1>
     </div>
   </header>
 </template>
