@@ -7,7 +7,6 @@
       <HuongDanSuDung />
     </div>
     <KiNangMem />
-    </div>
     <PhanDitFooter />
   </div>
 </template>
