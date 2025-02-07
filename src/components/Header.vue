@@ -1,12 +1,6 @@
 <template>
   <header class="header">
-    <div class="logo">My Website</div>
-    <nav class="nav">
-      <a href="#">Trang chủ</a>
-      <a href="#">Dịch vụ</a>
-      <a href="#">Về chúng tôi</a>
-      <a href="#">Liên hệ</a>
-    </nav>
+    <h1>LONGHA</h1>
   </header>
 </template>
 
@@ -19,24 +13,30 @@ export default {
 <style scoped>
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  background-color: #2c3e50;
-  padding: 15px 30px;
-  color: white;
+  /* Animated gradient background */
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  background-size: 200% 200%;
+  animation: gradientAnimation 5s ease infinite;
+  padding: 30px 20px;
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-}
-.nav a {
-  color: white;
-  text-decoration: none;
-  margin-left: 20px;
-  font-size: 18px;
-  transition: color 0.3s;
-}
-.nav a:hover {
-  color: #42b983;
+
+/* Animation keyframes cho background */
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 </style>
