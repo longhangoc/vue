@@ -6,6 +6,8 @@
       <!-- Hiển thị phần Hướng Dẫn Sử Dụng -->
       <HuongDanSuDung />
     </div>
+    <KiNangMem />
+    </div>
     <PhanDitFooter />
   </div>
 </template>
@@ -15,6 +17,7 @@ import HelloWorld from './components/HelloWorld.vue'
 import PhanDauHeader from './components/Header.vue'
 import PhanDitFooter from './components/Footer.vue'
 import HuongDanSuDung from './components/HuongDanSuDung.vue'
+import KiNangMem from './components/KiNangMem.vue'
 
 export default {
   name: 'App',
@@ -22,6 +25,7 @@ export default {
     PhanDauHeader,
     PhanDitFooter,
     HuongDanSuDung,
+    KiNangMem,
     HelloWorld
   }
 }
