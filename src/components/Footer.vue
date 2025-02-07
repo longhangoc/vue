@@ -1,37 +1,33 @@
 <template>
   <footer class="footer">
-    <p>© 2025 My Website. All rights reserved.</p>
-    <div class="social-icons">
-      <a href="#"><i class="fab fa-facebook"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-    </div>
+    <p>© {{ currentYear }} HAL. All rights reserved.</p>
   </footer>
 </template>
 
 <script>
 export default {
-  name: 'PhanDitFooter'
+  name: 'PhanDitFooter',
+  data() {
+    return {
+      currentYear: new Date().getFullYear()
+    }
+  }
 }
 </script>
 
 <style scoped>
 .footer {
-  background-color: #34495e;
-  color: white;
+  background-color: #222;
+  color: #ccc;
+  padding: 15px;
   text-align: center;
-  padding: 20px;
-  position: relative;
-  bottom: 0;
-  width: 100%;
+  font-size: 14px;
+  border-top: 2px solid #444;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
-.social-icons a {
-  color: white;
-  font-size: 20px;
-  margin: 0 10px;
-  transition: color 0.3s;
-}
-.social-icons a:hover {
-  color: #42b983;
+
+.footer p {
+  margin: 0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 </style>
