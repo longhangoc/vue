@@ -48,7 +48,7 @@ import {
 } from 'lucide-react'
 
 export default {
-  name: "EnhancedGuide",
+  name: "HuongDanSuDung",
   components: {
     PlusCircleIcon,
     StarIcon,
