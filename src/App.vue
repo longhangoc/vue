@@ -1,23 +1,23 @@
 <template>
   <div id="app">
-    <phandau />
+    <PhanDauHeader />
     <div class="content">
       <HelloWorld msg="Welcome to Your Vue.js App" />
     </div>
-    <phandit />
+    <PhanDitFooter />
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import phandau from './components/phandau.vue'
-import phandit from './components/phandit.vue'
+import PhanDauHeader from './components/Header.vue'
+import PhanDitFooter from './components/Footer.vue'
 
 export default {
   name: 'App',
   components: {
-    phandau,
-    phandit,
+    PhanDauHeader,
+    PhanDitFooter,
     HelloWorld
   }
 }
@@ -32,13 +32,13 @@ export default {
   color: #2c3e50;
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Chiều cao full màn hình */
+  height: 100vh;
 }
 
 .content {
-  flex: 1; /* Chiếm hết phần còn lại giữa header và footer */
+  flex: 1;
   display: flex;
-  justify-content: center; /* Căn giữa theo chiều ngang */
-  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center;
+  align-items: center;
 }
 </style>
