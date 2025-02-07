@@ -1,26 +1,21 @@
 <template>
-  <header class="enhanced-header">
-    <div class="header-content">
-      <div class="header-left">
-        <button 
-          class="menu-toggle" 
-          @mouseenter="hoverMenu = true" 
-          @mouseleave="hoverMenu = false"
-          @click="toggleMenu"
-        >
-          <svg viewBox="0 0 24 24" width="24" height="24">
-            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
-          </svg>
-          <span 
-            class="menu-hover-effect" 
-            :class="{ 'active': hoverMenu }"
-          ></span>
-        </button>
-        <div class="logo-container">
-          <h1 class="logo">
-            <span class="logo-text">LONGHA</span>
-          </h1>
+  <header class="love-header">
+    <div class="heart-background">
+      <div class="falling-hearts">
+        <div v-for="heart in hearts" :key="heart.id" 
+             class="heart" 
+             :style="{
+               left: `${heart.left}%`, 
+               animationDelay: `${heart.delay}s`,
+               transform: `scale(${heart.scale})`
+             }">
+          ❤️
         </div>
+      </div>
+    </div>
+    <div class="header-content">
+      <div class="logo-container">
+        <h1 class="logo">LONGHA</h1>
       </div>
     </div>
   </header>
@@ -28,105 +23,85 @@
 
 <script>
 export default {
-  name: 'EnhancedHeader',
+  name: 'LoveHeader',
   data() {
     return {
-      hoverMenu: false,
-      isMenuOpen: false
-    }
-  },
-  methods: {
-    toggleMenu() {
-      this.isMenuOpen = !this.isMenuOpen
-      // You can add additional logic here for menu opening/closing
+      hearts: Array.from({ length: 10 }, (_, index) => ({
+        id: index,
+        left: Math.random() * 100,
+        delay: Math.random() * 10,
+        scale: 0.5 + Math.random() * 0.5
+      }))
     }
   }
 }
 </script>
 
 <style scoped>
-.enhanced-header {
-  position: fixed;
+.love-header {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  background: linear-gradient(135deg, #fff0f5, #ffebee);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.heart-background {
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  z-index: 1000;
-  transition: all 0.3s ease;
-}
-
-.header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1rem;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.menu-toggle {
-  position: relative;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 10px;
-  border-radius: 50%;
-  transition: all 0.3s ease;
+  height: 100%;
+  pointer-events: none;
   overflow: hidden;
 }
 
-.menu-toggle svg {
-  position: relative;
-  z-index: 2;
-  fill: #1a1a1a;
-  transition: transform 0.3s ease;
-}
-
-.menu-toggle:hover svg {
-  transform: rotate(90deg);
-}
-
-.menu-hover-effect {
+.falling-hearts {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: all 0.3s ease;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.menu-toggle:hover .menu-hover-effect.active {
-  width: 150%;
-  height: 150%;
-  opacity: 1;
+.heart {
+  position: absolute;
+  font-size: 20px;
+  opacity: 0.6;
+  animation: fall 10s linear infinite;
+  user-select: none;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(calc(100vh + 20px));
+    opacity: 0;
+  }
 }
 
 .logo-container {
-  display: flex;
-  align-items: center;
+  z-index: 10;
+  position: relative;
 }
 
 .logo {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 800;
-  background: linear-gradient(45deg, #3494E6, #EC6EAD);
+  background: linear-gradient(45deg, #ff6b6b, #ff4757);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  transition: all 0.3s ease;
+  text-align: center;
+  transition: transform 0.3s ease;
 }
 
 .logo:hover {
@@ -134,22 +109,12 @@ export default {
 }
 
 @media (max-width: 600px) {
-  .header-content {
-    padding: 0.5rem 0.75rem;
-  }
-
   .logo {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
 
-  .menu-toggle {
-    padding: 8px;
-  }
-}
-
-@media (max-width: 400px) {
-  .header-left {
-    gap: 1rem;
+  .heart {
+    font-size: 15px;
   }
 }
 </style>
