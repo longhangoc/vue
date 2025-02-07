@@ -31,7 +31,7 @@ import {
 } from 'lucide-react'
 
 export default {
-  name: 'MinimalistGuide',
+  name: 'HuongDanSuDung',
   components: {
     PlusCircleIcon,
     StarIcon,
