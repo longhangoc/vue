@@ -1,27 +1,28 @@
 <template>
-  <footer class="footer">
+  <footer class="modern-footer">
     <div class="footer-content">
-      <p class="copyright">
-        © {{ currentYear }} HAL.
-      </p>
-      <div class="social-links">
-        <a href="#" class="social-link">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+      <div class="contact-buttons">
+        <a href="#" class="contact-button facebook">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z"/>
           </svg>
+          Facebook
         </a>
-        <a href="#" class="social-link">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        <a href="#" class="contact-button telegram">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.888 7.405l-1.566 7.338c-.116.511-.406.636-.822.395l-2.369-1.749-1.137 1.099c-.125.125-.23.23-.472.23l.168-2.395 4.361-3.941c.189-.168-.042-.263-.285-.094l-5.389 3.39-2.321-.724c-.504-.159-.513-.504.106-.743l9.054-3.49c.424-.153.798.105.659.739z"/>
           </svg>
+          Telegram
         </a>
-        <a href="#" class="social-link">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+        <a href="#" class="contact-button zalo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M14.414 5H9.586a1 1 0 0 0-1 1v11.414l2.293-2.293a1 1 0 0 1 1.414 0L14 17.414V6a1 1 0 0 0-1-1zm-2.828-2h4.242a3 3 0 0 1 3 3v13a1 1 0 0 1-1.707.707L12 16.414l-5.121 5.293A1 1 0 0 1 5.172 21v-13a3 3 0 0 1 3-3z"/>
           </svg>
+          Zalo
         </a>
+      </div>
+      <div class="footer-bottom">
+        <p>© {{ currentYear }} LONGHA.</p>
       </div>
     </div>
   </footer>
@@ -39,72 +40,79 @@ export default {
 </script>
 
 <style scoped>
-.footer {
-  background-color: #111;
-  color: #ccc;
-  padding: 2rem 1.5rem;
+.modern-footer {
+  background: linear-gradient(135deg, #f5f7fa 0%, #f2f3f7 100%);
+  padding: 2rem;
   text-align: center;
-  position: relative;
-  overflow: hidden;
 }
 
 .footer-content {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
+}
+
+.contact-buttons {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
   gap: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.copyright {
-  font-size: 0.9rem;
-  opacity: 0.8;
-  letter-spacing: 0.05em;
-}
-
-.social-links {
+.contact-button {
   display: flex;
-  gap: 2rem;
-}
-
-.social-link {
-  color: #fff;
-  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  background-color: rgba(255,255,255,0.1);
+  gap: 0.5rem;
+  padding: 10px 20px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.social-link svg {
-  width: 1.5rem;
-  height: 1.5rem;
-  stroke: currentColor;
+.contact-button svg {
+  transition: transform 0.3s ease;
 }
 
-.social-link:hover {
-  background-color: #2575fc;
+.contact-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+}
+
+.contact-button:hover svg {
+  transform: scale(1.1);
+}
+
+.facebook {
+  background-color: #1877F2;
   color: white;
-  transform: scale(1.1) rotate(6deg);
+}
+
+.telegram {
+  background-color: #2AABEE;
+  color: white;
+}
+
+.zalo {
+  background-color: #0068FF;
+  color: white;
+}
+
+.footer-bottom {
+  color: #666;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 1rem;
 }
 
 @media (max-width: 768px) {
-  .social-links {
-    gap: 1.5rem;
+  .contact-buttons {
+    flex-direction: column;
+    gap: 1rem;
   }
 
-  .social-link {
-    width: 2rem;
-    height: 2rem;
-  }
-
-  .social-link svg {
-    width: 1.2rem;
-    height: 1.2rem;
+  .contact-button {
+    width: 100%;
   }
 }
 </style>
