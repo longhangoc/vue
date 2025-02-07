@@ -48,7 +48,7 @@ import {
 } from 'lucide-react'
 
 export default {
-  name: "HuongDanSuDung",
+  name: "HuongDan",
   components: {
     PlusCircleIcon,
     StarIcon,
