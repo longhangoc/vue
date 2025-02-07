@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <div class="logo">LONGHA</div>
+    <div class="logo">❤️</div>
     <nav class="nav">
       <a href="#">Trang chủ</a>
       <a href="#">Dịch vụ</a>
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'phandau'
+  name: 'PhanDauHeader'
 }
 </script>
 
