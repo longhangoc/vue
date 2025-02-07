@@ -1,17 +1,26 @@
 <template>
-  <header class="header">
-    <div class="header-content">
-      <div class="header-gradient"></div>
-      <div class="header-title-wrapper">
-        <h1 class="header-title">
-          <span class="logo-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            </svg>
-          </span>
-          LONGHA
-        </h1>
+  <header class="youtube-header">
+    <div class="header-left">
+      <button class="menu-toggle">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
+        </svg>
+      </button>
+      <div class="logo">
+        <h1>LONGHA</h1>
       </div>
+    </div>
+    <div class="header-right">
+      <button class="search-btn">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+        </svg>
+      </button>
+      <button class="user-btn">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path>
+        </svg>
+      </button>
     </div>
   </header>
 </template>
@@ -23,83 +32,63 @@ export default {
 </script>
 
 <style scoped>
-.header {
-  position: relative;
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-  color: white;
+.youtube-header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 4rem 2rem;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+  height: 56px;
 }
 
-.header-content {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-}
-
-.header-gradient {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-  animation: gradient-flow 5s ease infinite;
-  opacity: 0.7;
-}
-
-.header-title-wrapper {
-  position: relative;
-  z-index: 20;
-}
-
-.header-title {
-  font-size: 4rem;
-  font-weight: 800;
+.header-left {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  text-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-.logo-icon {
-  width: 3rem;
-  height: 3rem;
-  display: inline-flex;
+.menu-toggle, .search-btn, .user-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.menu-toggle:hover, 
+.search-btn:hover, 
+.user-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.menu-toggle svg, 
+.search-btn svg, 
+.user-btn svg {
+  fill: #030303;
+}
+
+.logo h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #030303;
+  margin: 0;
+}
+
+.header-right {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  stroke: currentColor;
-  color: #ffd700;
-  transform: translateY(-0.2rem);
+  gap: 1rem;
 }
 
-.logo-icon svg {
-  width: 100%;
-  height: 100%;
-}
-
-@keyframes gradient-flow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@media (max-width: 768px) {
-  .header-title {
-    font-size: 2.5rem;
-    gap: 0.5rem;
+@media (max-width: 600px) {
+  .youtube-header {
+    padding: 0.5rem;
   }
-
-  .logo-icon {
-    width: 2rem;
-    height: 2rem;
+  
+  .logo h1 {
+    font-size: 1.2rem;
   }
 }
 </style>
