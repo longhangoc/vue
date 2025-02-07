@@ -32,23 +32,6 @@
       </div>
     </header>
 
-    <nav class="app-nav">
-      <router-link to="/overview" class="nav-item" active-class="active">
-        Overview
-      </router-link>
-      <router-link to="/integrations" class="nav-item" active-class="active">
-        Integrations
-      </router-link>
-      <router-link to="/activity" class="nav-item" active-class="active">
-        Activity
-      </router-link>
-      <router-link to="/domains" class="nav-item" active-class="active">
-        Domains
-      </router-link>
-      <router-link to="/usage" class="nav-item" active-class="active">
-        Usage
-      </router-link>
-    </nav>
 
     <router-view class="page-content"></router-view>
   </div>
