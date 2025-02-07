@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <div class="logo">❤️</div>
+    <div class="logo">My Website</div>
     <nav class="nav">
       <a href="#">Trang chủ</a>
       <a href="#">Dịch vụ</a>
@@ -25,12 +25,10 @@ export default {
   padding: 15px 30px;
   color: white;
 }
-
 .logo {
   font-size: 24px;
   font-weight: bold;
 }
-
 .nav a {
   color: white;
   text-decoration: none;
@@ -38,7 +36,6 @@ export default {
   font-size: 18px;
   transition: color 0.3s;
 }
-
 .nav a:hover {
   color: #42b983;
 }
