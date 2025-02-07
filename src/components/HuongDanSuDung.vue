@@ -10,9 +10,7 @@
 
     <div class="guide-steps">
       <div class="guide-step" v-for="(step, index) in steps" :key="index">
-        <div class="step-icon-container">
-          <component :is="step.icon" class="step-icon"></component>
-        </div>
+        <!-- Loại bỏ phần hiển thị icon động -->
         <div class="step-content">
           <div class="step-number">{{ index + 1 }}</div>
           <h3>{{ step.title }}</h3>
@@ -23,7 +21,7 @@
 
     <div class="guide-tips">
       <h3>
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-lienjoin="round" class="tips-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tips-icon">
           <path d="M12 20h9"></path>
           <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
         </svg>
@@ -40,41 +38,24 @@
 </template>
 
 <script>
-import { 
-  PlusCircleIcon, 
-  StarIcon, 
-  ChartPieIcon, 
-  DownloadIcon 
-} from 'lucide-react'
-
 export default {
-  name: "HuongDan",
-  components: {
-    PlusCircleIcon,
-    StarIcon,
-    ChartPieIcon,
-    DownloadIcon
-  },
+  name: "HuongDanSuDung",
   data() {
     return {
       steps: [
         {
-          icon: PlusCircleIcon,
           title: "Thêm Lĩnh Vực",
           description: "Nhấn vào nút \"Thêm lĩnh vực\" để bổ sung các khía cạnh cuộc sống bạn muốn đánh giá."
         },
         {
-          icon: StarIcon,
           title: "Đánh Giá Điểm Số",
           description: "Cho điểm từ 1-10 cho mỗi lĩnh vực, phản ánh mức độ hài lòng của bạn."
         },
         {
-          icon: ChartPieIcon,
           title: "Xem Kết Quả",
           description: "Bánh xe sẽ hiển thị trực quan mức độ cân bằng trong cuộc sống của bạn."
         },
         {
-          icon: DownloadIcon,
           title: "Lưu Kết Quả",
           description: "Tải về dưới dạng SVG hoặc PNG để theo dõi sự tiến bộ của bản thân."
         }
@@ -139,17 +120,6 @@ export default {
 .guide-step:hover {
   transform: translateY(-10px);
   box-shadow: 0 12px 20px rgba(0,0,0,0.15);
-}
-
-.step-icon-container {
-  margin-bottom: 20px;
-}
-
-.step-icon {
-  width: 60px;
-  height: 60px;
-  color: #3498db;
-  stroke-width: 1.5;
 }
 
 .step-number {
