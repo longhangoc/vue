@@ -1,21 +1,27 @@
 <template>
-  <header class="love-header">
-    <div class="heart-background">
-      <div class="falling-hearts">
-        <div v-for="heart in hearts" :key="heart.id" 
-             class="heart" 
-             :style="{
-               left: `${heart.left}%`, 
-               animationDelay: `${heart.delay}s`,
-               transform: `scale(${heart.scale})`
-             }">
-          ❤️
-        </div>
+  <header class="galaxy-header">
+    <div class="galaxy-background">
+      <div class="stars"></div>
+      <div class="shooting-stars">
+        <div 
+          v-for="star in shootingStars" 
+          :key="star.id" 
+          class="shooting-star"
+          :style="{
+            left: `${star.left}%`,
+            animationDelay: `${star.delay}s`,
+            width: `${star.width}px`
+          }"
+        ></div>
       </div>
+      <div class="nebula"></div>
     </div>
     <div class="header-content">
       <div class="logo-container">
-        <h1 class="logo">LONGHA</h1>
+        <h1 class="galaxy-logo">
+          <span class="logo-text">LONGHA</span>
+          <span class="logo-subtext">❤️</span>
+        </h1>
       </div>
     </div>
   </header>
@@ -23,14 +29,14 @@
 
 <script>
 export default {
-  name: 'LoveHeader',
+  name: 'GalaxyHeader',
   data() {
     return {
-      hearts: Array.from({ length: 10 }, (_, index) => ({
+      shootingStars: Array.from({ length: 15 }, (_, index) => ({
         id: index,
         left: Math.random() * 100,
-        delay: Math.random() * 10,
-        scale: 0.5 + Math.random() * 0.5
+        delay: Math.random() * 5,
+        width: 2 + Math.random() * 3
       }))
     }
   }
@@ -38,29 +44,47 @@ export default {
 </script>
 
 <style scoped>
-.love-header {
+.galaxy-header {
   position: relative;
   width: 100%;
-  height: 60px;
-  background: linear-gradient(135deg, #fff0f5, #ffebee);
+  height: 70px;
+  background-color: #0c0c1e;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 255, 0.2);
 }
 
-.heart-background {
+.galaxy-background {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
   overflow: hidden;
 }
 
-.falling-hearts {
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(#ffffff 1px, transparent 1px),
+    radial-gradient(#ffffff 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: 0 0, 25px 25px;
+  animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+.shooting-stars {
   position: absolute;
   top: 0;
   left: 0;
@@ -68,53 +92,110 @@ export default {
   height: 100%;
 }
 
-.heart {
+.shooting-star {
   position: absolute;
-  font-size: 20px;
-  opacity: 0.6;
-  animation: fall 10s linear infinite;
-  user-select: none;
+  top: -10px;
+  height: 2px;
+  background: linear-gradient(to right, rgba(255,255,255,0.8), transparent);
+  transform: rotate(-45deg);
+  animation: shootingStar 3s linear infinite;
+  z-index: 10;
 }
 
-@keyframes fall {
+@keyframes shootingStar {
   0% {
-    transform: translateY(-20px);
-    opacity: 0.6;
+    transform: translateX(-100%) rotate(-45deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
   }
   100% {
-    transform: translateY(calc(100vh + 20px));
+    transform: translateX(100vw) rotate(-45deg);
     opacity: 0;
   }
 }
 
-.logo-container {
-  z-index: 10;
-  position: relative;
+.nebula {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center, 
+    rgba(87, 10, 160, 0.2) 0%, 
+    rgba(12, 12, 30, 0) 70%
+  );
+  animation: nebula-flow 10s ease-in-out infinite alternate;
 }
 
-.logo {
+@keyframes nebula-flow {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(1.1); opacity: 0.7; }
+}
+
+.header-content {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.logo-container {
+  text-align: center;
+}
+
+.galaxy-logo {
   margin: 0;
-  font-size: 2rem;
-  font-weight: 800;
-  background: linear-gradient(45deg, #ff6b6b, #ff4757);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+
+.logo-text {
+  font-size: 2.5rem;
+  font-weight: 900;
+  background: linear-gradient(
+    to right, 
+    #00bfff, 
+    #1e90ff, 
+    #4169e1, 
+    #0000cd
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-align: center;
+  text-shadow: 0 0 10px rgba(30, 144, 255, 0.5);
   transition: transform 0.3s ease;
 }
 
-.logo:hover {
+.logo-subtext {
+  font-size: 0.8rem;
+  color: #87cefa;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+.logo-text:hover {
   transform: scale(1.05);
 }
 
 @media (max-width: 600px) {
-  .logo {
-    font-size: 1.5rem;
+  .galaxy-header {
+    height: 60px;
   }
 
-  .heart {
-    font-size: 15px;
+  .logo-text {
+    font-size: 2rem;
+  }
+
+  .logo-subtext {
+    font-size: 0.7rem;
   }
 }
 </style>
