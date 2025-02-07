@@ -1,10 +1,16 @@
 <template>
-  <div id="app"></div>
+  <div id="app">
+  </div>
 </template>
 
 <script>
+import HelloWorld from './components/HelloWorld.vue'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    HelloWorld
+  }
 }
 </script>
 
