@@ -39,7 +39,7 @@ export default {
           iconClass: 'icon-blue'
         },
         { 
-          iconPath: "M12 17.75l-6.172 3.845 1.179-6.873-5-4.867 6.9-1l3.094-6.253 3.094 6.253 6.9 1-5 4.867 1.179 6.873z",
+          iconPath: "M12 17.75l-6.172 3.845 1.179-6.873-5-4.867 6.9-1 3.094-6.253 3.094 6.253 6.9 1-5 4.867 1.179 6.873z",
           title: "Đánh Giá", 
           description: "Cho điểm từ 1-10 cho mỗi lĩnh vực.",
           iconClass: 'icon-purple'
@@ -64,11 +64,8 @@ export default {
 
 <style scoped>
 .life-balance-guide {
-  max-width: 480px;
+  max-width: 1200px;
   margin: 1rem auto;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
 }
 
@@ -78,6 +75,33 @@ export default {
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
   font-weight: 600;
+}
+
+.steps-container {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 768px) {
+  .steps-container {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .step-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    border-bottom: none;
+    border-right: 1px solid #f0f0f0;
+    padding: 1rem;
+  }
+
+  .step-item:last-child {
+    border-right: none;
+  }
 }
 
 .step-item {
@@ -119,6 +143,18 @@ export default {
 .step-content {
   flex-grow: 1;
   position: relative;
+}
+
+@media screen and (min-width: 768px) {
+  .step-content {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .step-number {
+    position: static;
+    margin-bottom: 0.5rem;
+  }
 }
 
 .step-number {
