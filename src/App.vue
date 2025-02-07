@@ -3,6 +3,8 @@
     <PhanDauHeader />
     <div class="content">
       <HelloWorld msg="Welcome to Your Vue.js App" />
+      <!-- Hiển thị phần Hướng Dẫn Sử Dụng -->
+      <HuongDanSuDung />
     </div>
     <PhanDitFooter />
   </div>
@@ -12,14 +14,14 @@
 import HelloWorld from './components/HelloWorld.vue'
 import PhanDauHeader from './components/Header.vue'
 import PhanDitFooter from './components/Footer.vue'
-  import EnhancedGuide from './components/HuongDanSuDung.vue'
+import HuongDanSuDung from './components/HuongDanSuDung.vue'
 
 export default {
   name: 'App',
   components: {
     PhanDauHeader,
     PhanDitFooter,
-    EnhancedGuide,
+    HuongDanSuDung,
     HelloWorld
   }
 }
@@ -39,6 +41,7 @@ export default {
 .content {
   flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
