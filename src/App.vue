@@ -34,7 +34,6 @@ export default {
   flex-direction: column;
   height: 100vh;
 }
-
 .content {
   flex: 1;
   display: flex;
