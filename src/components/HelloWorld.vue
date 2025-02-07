@@ -2,7 +2,7 @@
   <div class="life-wheel-container">
     <header class="wheel-header">
       <h1 class="text-gradient">Bánh Xe Cuộc Đời</h1>
-      <p class="header-description">Đánh giá và theo dõi sự cân bằng trong cuộc sống của bạn</p>
+      <p class="header-description">Code by Long Hà</p>
     </header>
 
     <div class="content">
