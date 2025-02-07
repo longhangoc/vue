@@ -8,7 +8,7 @@
       <!-- Controls Panel -->
       <section class="controls-panel">
         <div class="panel-header">
-          <h2>Các Lĩnh Vực</h2>
+          
           <button @click="addArea" class="btn-secondary" :disabled="areas.length >= 12">
             <span class="btn-icon">+</span> Thêm lĩnh vực
           </button>
