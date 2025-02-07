@@ -12,12 +12,14 @@
 import HelloWorld from './components/HelloWorld.vue'
 import PhanDauHeader from './components/Header.vue'
 import PhanDitFooter from './components/Footer.vue'
+  import EnhancedGuide from './components/HuongDanSuDung.vue'
 
 export default {
   name: 'App',
   components: {
     PhanDauHeader,
     PhanDitFooter,
+    EnhancedGuide,
     HelloWorld
   }
 }
