@@ -2,26 +2,31 @@
 <template>
   <footer class="footer">
     <!-- Logo -->
-    <div class="logo">▲</div>
+    <div class="logo">
+      <svg viewBox="0 0 24 24" width="24" height="24" class="logo-svg">
+        <path d="M12 2L2 19.5h20L12 2z" 
+              fill="currentColor" 
+              stroke="currentColor" 
+              stroke-width="1"
+              stroke-linejoin="round"/>
+        <path d="M9 13.5L12 8l3 5.5H9z" 
+              fill="white" 
+              stroke="none"/>
+      </svg>
+    </div>
     
-    <!-- Main Navigation Grid -->
-    <div class="nav-grid">
-      <div class="nav-item">
+    <!-- Left Navigation -->
+    <div class="nav-section">
+      <div class="nav-column">
         <a href="/" class="nav-link">Home</a>
-      </div>
-      <div class="nav-item">
-        <a href="/docs" class="nav-link">Docs</a>
-      </div>
-      <div class="nav-item">
         <a href="/guides" class="nav-link">Guides</a>
-      </div>
-      <div class="nav-item">
-        <a href="/help" class="nav-link">Help</a>
-      </div>
-      <div class="nav-item">
         <a href="/contact" class="nav-link">Contact</a>
       </div>
-      <div class="nav-item">
+      
+      <!-- Right Navigation -->
+      <div class="nav-column">
+        <a href="/docs" class="nav-link">Docs</a>
+        <a href="/help" class="nav-link">Help</a>
         <div class="dropdown">
           <button class="dropdown-button">
             Legal
@@ -61,7 +66,7 @@
     
     <!-- Copyright -->
     <div class="copyright">
-      © {{ currentYear }}, Vercel Inc.
+      © {{ currentYear }}, LongHà Inc.
     </div>
   </footer>
 </template>
@@ -86,17 +91,28 @@ export default {
 }
 
 .logo {
-  font-size: 1.2rem;
   margin-bottom: 3rem;
   color: #000;
 }
 
-.nav-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+.logo-svg {
+  transition: transform 0.3s ease;
+}
+
+.logo:hover .logo-svg {
+  transform: scale(1.1);
+}
+
+.nav-section {
+  display: flex;
+  gap: 8rem;
   margin-bottom: 3rem;
-  max-width: 400px;
+}
+
+.nav-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .nav-link {
@@ -139,6 +155,8 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin: 2rem 0;
+  border-top: 1px solid #eaeaea;
+  padding-top: 2rem;
 }
 
 .status {
@@ -185,22 +203,30 @@ export default {
   color: #666;
   font-size: 0.875rem;
   margin-top: 2rem;
+  border-top: 1px solid #eaeaea;
+  padding-top: 2rem;
 }
 
 @media (max-width: 640px) {
-  .nav-grid {
-    grid-template-columns: 1fr;
+  .footer {
+    padding: 1.5rem;
   }
-  
-  .status-bar {
+
+  .nav-section {
     flex-direction: column;
-    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .nav-column {
     gap: 1rem;
   }
-  
-  .tools {
-    width: 100%;
-    justify-content: flex-end;
+
+  .status-bar {
+    margin: 1.5rem 0;
+  }
+
+  .status-text {
+    font-size: 0.938rem;
   }
 }
 </style>
