@@ -22,22 +22,16 @@
           </button>
         </div>
 
-        <!-- Wheel Mode Switch: Button Group -->
+        <!-- Wheel Mode Switch: Segmented Control -->
         <div class="wheel-mode-switch">
           <span class="mode-label">Chọn giao diện bánh xe:</span>
           <div class="mode-buttons">
-            <button :class="{'mode-button': true, active: wheelMode === 'classic'}"
-                    @click="setWheelMode('classic')">
-              Classic
-            </button>
-            <button :class="{'mode-button': true, active: wheelMode === 'modern'}"
-                    @click="setWheelMode('modern')">
-              Modern
-            </button>
-            <button :class="{'mode-button': true, active: wheelMode === 'minimal'}"
-                    @click="setWheelMode('minimal')">
-              Minimal
-            </button>
+            <button :class="{'mode-button': true, active: wheelMode==='classic'}"
+                    @click="setWheelMode('classic')">Classic</button>
+            <button :class="{'mode-button': true, active: wheelMode==='modern'}"
+                    @click="setWheelMode('modern')">Modern</button>
+            <button :class="{'mode-button': true, active: wheelMode==='minimal'}"
+                    @click="setWheelMode('minimal')">Minimal</button>
           </div>
         </div>
 
@@ -60,7 +54,7 @@
               <div class="area-controls">
                 <div class="value-control">
                   <span class="value-label">Mức độ: {{ area.value }}/10</span>
-                  <!-- Dùng @change để giảm số lần lưu trạng thái khi kéo slider -->
+                  <!-- Dùng @change để hạn chế lưu trạng thái quá nhiều khi kéo slider -->
                   <input type="range"
                          class="slider"
                          min="0"
@@ -200,7 +194,7 @@ export default {
         this.drawMinimalWheel();
       }
     },
-    // Giao diện Classic: giữ nguyên phiên bản ban đầu
+    // --- Giao diện Classic ---
     drawClassicWheel() {
       const svg = this.$refs.wheelSvg;
       const centerX = 250, centerY = 250;
@@ -258,7 +252,7 @@ export default {
         outerArc.setAttribute("stroke", "#000");
         outerArc.setAttribute("stroke-width", "2");
         svg.appendChild(outerArc);
-        // Text path
+        // Vẽ text path cho tên lĩnh vực
         const pathId = `textPath${i}`;
         const textRadius = maxRadius + 20;
         const isBottomHalf = midAngle > 0 && midAngle < Math.PI;
@@ -302,16 +296,14 @@ export default {
         svg.appendChild(valuePath);
       });
     },
-    // Giao diện Modern: bánh xe dạng donut đẹp hơn với hiệu ứng drop shadow
+    // --- Giao diện Modern ---
     drawModernWheel() {
       const svg = this.$refs.wheelSvg;
       const centerX = 250, centerY = 250;
       const innerRadius = 100, outerRadius = 200;
       svg.innerHTML = '';
-
       const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
       svg.appendChild(defs);
-
       // Thêm filter drop shadow
       const filter = document.createElementNS("http://www.w3.org/2000/svg", "filter");
       filter.setAttribute("id", "dropShadow");
@@ -331,13 +323,11 @@ export default {
       feMerge.appendChild(feMergeNode2);
       filter.appendChild(feMerge);
       defs.appendChild(filter);
-
       const angleStep = (2 * Math.PI) / this.areas.length;
       this.areas.forEach((area, i) => {
         const startAngle = i * angleStep - Math.PI / 2;
         const endAngle = (i + 1) * angleStep - Math.PI / 2;
         const midAngle = (startAngle + endAngle) / 2;
-        
         // Vẽ background donut segment
         const bgLargeArcFlag = (endAngle - startAngle) <= Math.PI ? 0 : 1;
         const x1 = centerX + innerRadius * Math.cos(startAngle);
@@ -353,8 +343,7 @@ export default {
         bgPath.setAttribute("d", bgD);
         bgPath.setAttribute("fill", "#f9f9f9");
         svg.appendChild(bgPath);
-        
-        // Vẽ phần được tô (theo mức độ) với drop shadow
+        // Vẽ filled arc với drop shadow
         const filledRadius = innerRadius + (outerRadius - innerRadius) * (area.value / 10);
         const xFilled1 = centerX + innerRadius * Math.cos(startAngle);
         const yFilled1 = centerY + innerRadius * Math.sin(startAngle);
@@ -372,7 +361,6 @@ export default {
         filledPath.setAttribute("fill-opacity", "0.85");
         filledPath.setAttribute("filter", "url(#dropShadow)");
         svg.appendChild(filledPath);
-        
         // Text label
         const textRadius = innerRadius + (filledRadius - innerRadius) / 2;
         const textX = centerX + textRadius * Math.cos(midAngle);
@@ -389,7 +377,7 @@ export default {
         svg.appendChild(textEl);
       });
     },
-    // Giao diện Minimal: phiên bản tối giản với đường nét dashed và hiển thị value bằng stroke
+    // --- Giao diện Minimal ---
     drawMinimalWheel() {
       const svg = this.$refs.wheelSvg;
       const centerX = 250, centerY = 250;
@@ -423,7 +411,7 @@ export default {
         line.setAttribute("stroke", "#aaa");
         line.setAttribute("stroke-width", "1");
         svg.appendChild(line);
-        // Vẽ minimal value arc: sử dụng stroke thay vì fill
+        // Vẽ minimal value arc
         const valueRadius = maxRadius * (area.value / 10);
         const x1Val = centerX + valueRadius * Math.cos(startAngle);
         const y1Val = centerY + valueRadius * Math.sin(startAngle);
@@ -438,7 +426,7 @@ export default {
         arcPath.setAttribute("stroke-width", "4");
         arcPath.setAttribute("stroke-linecap", "round");
         svg.appendChild(arcPath);
-        // Vẽ text ở giữa mỗi phân vùng, đặt gần mép ngoài
+        // Vẽ text ở ngoài cùng
         const textRadius = maxRadius * 0.9;
         const textX = centerX + textRadius * Math.cos(midAngle);
         const textY = centerY + textRadius * Math.sin(midAngle);
@@ -516,7 +504,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 :root {
   --primary-color: #3498db;
@@ -600,40 +587,46 @@ body {
   gap: var(--spacing-md);
 }
 
-/* Wheel Mode Switch: Button Group */
+/* Wheel Mode Switch: Segmented Control */
 .wheel-mode-switch {
-  margin-bottom: var(--spacing-md);
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: var(--spacing-sm);
+  margin-bottom: 1rem;
 }
 
 .mode-label {
   font-size: 0.9rem;
   color: var(--text-color);
+  font-weight: 500;
 }
 
 .mode-buttons {
   display: flex;
-  gap: var(--spacing-sm);
+  gap: 0.5rem;
 }
 
 .mode-button {
-  padding: 0.4rem 0.8rem;
+  padding: 0.5rem 1rem;
   border: 1px solid #ccc;
   background: #fff;
-  border-radius: var(--border-radius);
+  border-radius: 999px;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: var(--transition);
+  transition: background 0.3s ease, border 0.3s ease;
 }
 
-.mode-button.active,
 .mode-button:hover {
   background: var(--primary-color);
   color: #fff;
   border-color: var(--primary-color);
+}
+
+.mode-button.active {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Areas Container */
@@ -854,18 +847,24 @@ body {
 .wheel-display {
   background: #fff;
   border-radius: var(--border-radius);
-  padding: clamp(1rem, 3vw, 2rem);
-  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
 }
 
 .wheel-container {
-  max-width: 100%;
-  aspect-ratio: 1;
+  background: radial-gradient(circle at center, #fff, #f0f0f0);
+  border-radius: 50%;
+  padding: 1rem;
+  position: relative;
 }
 
 .life-wheel {
   width: 100%;
   height: 100%;
+  transition: transform 0.5s ease;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
 /* List Transition Animations */
