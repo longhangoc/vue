@@ -614,18 +614,15 @@ body {
   font-size: 0.9rem;
   cursor: pointer;
   transition: background 0.3s ease, border 0.3s ease;
+  color: var(--text-color); /* Đảm bảo có màu chữ khi chưa active */
+  overflow: visible;
 }
 
-.mode-button:hover {
-  background: var(--primary-color);
-  color: #fff;
-  border-color: var(--primary-color);
-}
-
+.mode-button:hover,
 .mode-button.active {
   background: var(--primary-color);
-  color: #fff;
   border-color: var(--primary-color);
+  color: #fff !important;  /* Sử dụng !important để ưu tiên hiển thị màu trắng */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
