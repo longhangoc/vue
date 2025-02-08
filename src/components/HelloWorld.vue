@@ -14,7 +14,6 @@
           <button @click="addArea" class="btn-secondary" :disabled="areas.length >= 12">
             <span class="btn-icon">+</span> Thêm lĩnh vực
           </button>
-          <!-- Undo/Redo Buttons -->
           <button @click="undo" class="btn-secondary" :disabled="undoStack.length === 0">
             <span class="btn-icon">↺</span> Undo
           </button>
@@ -23,13 +22,23 @@
           </button>
         </div>
 
-        <!-- Wheel Interface Switch -->
+        <!-- Wheel Mode Switch: Button Group -->
         <div class="wheel-mode-switch">
-          <label for="wheel-mode">Giao diện bánh xe:</label>
-          <select id="wheel-mode" v-model="wheelMode" @change="drawWheel">
-            <option value="classic">Classic</option>
-            <option value="modern">Modern</option>
-          </select>
+          <span class="mode-label">Chọn giao diện bánh xe:</span>
+          <div class="mode-buttons">
+            <button :class="{'mode-button': true, active: wheelMode === 'classic'}"
+                    @click="setWheelMode('classic')">
+              Classic
+            </button>
+            <button :class="{'mode-button': true, active: wheelMode === 'modern'}"
+                    @click="setWheelMode('modern')">
+              Modern
+            </button>
+            <button :class="{'mode-button': true, active: wheelMode === 'minimal'}"
+                    @click="setWheelMode('minimal')">
+              Minimal
+            </button>
+          </div>
         </div>
 
         <div class="areas-container">
@@ -37,38 +46,33 @@
             <div v-for="(area, i) in areas" :key="i" class="area-card">
               <div class="area-header">
                 <div class="color-indicator" :style="{ backgroundColor: area.color }"></div>
-                <input
-                  type="text"
-                  class="area-name-input"
-                  v-model="area.name"
-                  @input="updateArea(i, 'name', $event.target.value)"
-                  placeholder="Tên lĩnh vực"
-                />
-                <button class="btn-icon-remove" @click="removeArea(i)" :disabled="areas.length <= 3">
+                <input type="text"
+                       class="area-name-input"
+                       v-model="area.name"
+                       @input="updateArea(i, 'name', $event.target.value)"
+                       placeholder="Tên lĩnh vực" />
+                <button class="btn-icon-remove"
+                        @click="removeArea(i)"
+                        :disabled="areas.length <= 3">
                   ×
                 </button>
               </div>
-              
               <div class="area-controls">
                 <div class="value-control">
                   <span class="value-label">Mức độ: {{ area.value }}/10</span>
-                  <!-- Sử dụng @change cho slider để giảm số lần lưu state khi kéo -->
-                  <input
-                    type="range"
-                    class="slider"
-                    min="0"
-                    max="10"
-                    v-model.number="area.value"
-                    @change="updateArea(i, 'value', parseInt($event.target.value))"
-                  />
+                  <!-- Dùng @change để giảm số lần lưu trạng thái khi kéo slider -->
+                  <input type="range"
+                         class="slider"
+                         min="0"
+                         max="10"
+                         v-model.number="area.value"
+                         @change="updateArea(i, 'value', parseInt($event.target.value))" />
                 </div>
-                <input
-                  type="color"
-                  class="color-picker"
-                  v-model="area.color"
-                  @input="updateArea(i, 'color', $event.target.value)"
-                  title="Chọn màu"
-                />
+                <input type="color"
+                       class="color-picker"
+                       v-model="area.color"
+                       @input="updateArea(i, 'color', $event.target.value)"
+                       title="Chọn màu" />
               </div>
             </div>
           </TransitionGroup>
@@ -96,7 +100,7 @@
 
 <script>
 export default {
-  name: 'LifeWheel',
+  name: 'HelloWorld',
   data() {
     return {
       areas: [
@@ -111,18 +115,15 @@ export default {
       ],
       undoStack: [],
       redoStack: [],
-      wheelMode: 'classic' // 'classic' hoặc 'modern'
+      wheelMode: 'classic' // Các giá trị: 'classic', 'modern', 'minimal'
     }
   },
   methods: {
-    // Hàm clone (deep clone) mảng areas
     cloneAreas() {
       return JSON.parse(JSON.stringify(this.areas));
     },
-    // Lưu trạng thái trước khi thay đổi
     pushState() {
       this.undoStack.push(this.cloneAreas());
-      // Xóa redoStack khi có hành động mới
       this.redoStack = [];
     },
     updateArea(index, property, value) {
@@ -186,26 +187,27 @@ export default {
       const value = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
       slider.style.backgroundSize = `${value}% 100%`;
     },
-    // Hàm chọn giao diện bánh xe
+    setWheelMode(mode) {
+      this.wheelMode = mode;
+      this.drawWheel();
+    },
     drawWheel() {
       if (this.wheelMode === 'classic') {
         this.drawClassicWheel();
       } else if (this.wheelMode === 'modern') {
         this.drawModernWheel();
+      } else if (this.wheelMode === 'minimal') {
+        this.drawMinimalWheel();
       }
     },
-    // Giao diện Classic (như code ban đầu)
+    // Giao diện Classic: giữ nguyên phiên bản ban đầu
     drawClassicWheel() {
       const svg = this.$refs.wheelSvg;
-      const centerX = 250;
-      const centerY = 250;
-      const maxRadius = 200;
-      const outerRadius = maxRadius + 40;
+      const centerX = 250, centerY = 250;
+      const maxRadius = 200, outerRadius = maxRadius + 40;
       svg.innerHTML = '';
-
       const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
       svg.appendChild(defs);
-
       // Vẽ các vòng tròn đồng tâm và số vòng
       for (let i = 1; i <= 10; i++) {
         const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
@@ -216,7 +218,6 @@ export default {
         circle.setAttribute("stroke", "#e9ecef");
         circle.setAttribute("stroke-width", "1");
         svg.appendChild(circle);
-
         const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
         text.setAttribute("x", centerX - 15);
         text.setAttribute("y", centerY - (maxRadius * i / 10) + 15);
@@ -225,13 +226,11 @@ export default {
         text.textContent = i;
         svg.appendChild(text);
       }
-
       const angleStep = (2 * Math.PI) / this.areas.length;
       this.areas.forEach((area, i) => {
         const startAngle = i * angleStep - Math.PI / 2;
         const endAngle = (i + 1) * angleStep - Math.PI / 2;
         const midAngle = (startAngle + endAngle) / 2;
-
         // Vẽ đường phân cách
         const x2 = centerX + maxRadius * Math.cos(startAngle);
         const y2 = centerY + maxRadius * Math.sin(startAngle);
@@ -243,7 +242,6 @@ export default {
         line.setAttribute("stroke", "#000");
         line.setAttribute("stroke-width", "2");
         svg.appendChild(line);
-
         // Vẽ viền ngoài
         const x1 = centerX + maxRadius * Math.cos(startAngle);
         const y1 = centerY + maxRadius * Math.sin(startAngle);
@@ -253,7 +251,6 @@ export default {
         const y3 = centerY + outerRadius * Math.sin(endAngle);
         const x4 = centerX + outerRadius * Math.cos(startAngle);
         const y4 = centerY + outerRadius * Math.sin(startAngle);
-
         const outerArc = document.createElementNS("http://www.w3.org/2000/svg", "path");
         const outerD = `M ${x1} ${y1} A ${maxRadius} ${maxRadius} 0 0 1 ${x2End} ${y2End} L ${x3} ${y3} A ${outerRadius} ${outerRadius} 0 0 0 ${x4} ${y4} Z`;
         outerArc.setAttribute("d", outerD);
@@ -261,44 +258,27 @@ export default {
         outerArc.setAttribute("stroke", "#000");
         outerArc.setAttribute("stroke-width", "2");
         svg.appendChild(outerArc);
-
         // Text path
         const pathId = `textPath${i}`;
         const textRadius = maxRadius + 20;
         const isBottomHalf = midAngle > 0 && midAngle < Math.PI;
         let pathStart, pathEnd;
-
         if (isBottomHalf) {
-          pathStart = {
-            x: centerX + textRadius * Math.cos(endAngle),
-            y: centerY + textRadius * Math.sin(endAngle)
-          };
-          pathEnd = {
-            x: centerX + textRadius * Math.cos(startAngle),
-            y: centerY + textRadius * Math.sin(startAngle)
-          };
+          pathStart = { x: centerX + textRadius * Math.cos(endAngle), y: centerY + textRadius * Math.sin(endAngle) };
+          pathEnd = { x: centerX + textRadius * Math.cos(startAngle), y: centerY + textRadius * Math.sin(startAngle) };
         } else {
-          pathStart = {
-            x: centerX + textRadius * Math.cos(startAngle),
-            y: centerY + textRadius * Math.sin(startAngle)
-          };
-          pathEnd = {
-            x: centerX + textRadius * Math.cos(endAngle),
-            y: centerY + textRadius * Math.sin(endAngle)
-          };
+          pathStart = { x: centerX + textRadius * Math.cos(startAngle), y: centerY + textRadius * Math.sin(startAngle) };
+          pathEnd = { x: centerX + textRadius * Math.cos(endAngle), y: centerY + textRadius * Math.sin(endAngle) };
         }
-
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("id", pathId);
         path.setAttribute("d", `M ${pathStart.x} ${pathStart.y} A ${textRadius} ${textRadius} 0 0 ${isBottomHalf ? 0 : 1} ${pathEnd.x} ${pathEnd.y}`);
         path.setAttribute("fill", "none");
         defs.appendChild(path);
-
         const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
         textEl.setAttribute("fill", "#fff");
         textEl.setAttribute("font-size", "12px");
         textEl.setAttribute("font-weight", "bold");
-
         const textPathElement = document.createElementNS("http://www.w3.org/2000/svg", "textPath");
         textPathElement.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `#${pathId}`);
         textPathElement.setAttribute("startOffset", "50%");
@@ -306,14 +286,12 @@ export default {
         textPathElement.textContent = area.name;
         textEl.appendChild(textPathElement);
         svg.appendChild(textEl);
-
         // Vẽ phần value
         const radius = maxRadius * (area.value / 10);
         const valueX1 = centerX + radius * Math.cos(startAngle);
         const valueY1 = centerY + radius * Math.sin(startAngle);
         const valueX2 = centerX + radius * Math.cos(endAngle);
         const valueY2 = centerY + radius * Math.sin(endAngle);
-
         const valuePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
         const valueD = `M ${centerX} ${centerY} L ${valueX1} ${valueY1} A ${radius} ${radius} 0 0 1 ${valueX2} ${valueY2} Z`;
         valuePath.setAttribute("d", valueD);
@@ -324,7 +302,7 @@ export default {
         svg.appendChild(valuePath);
       });
     },
-    // Giao diện Modern: vẽ bánh xe dạng donut
+    // Giao diện Modern: bánh xe dạng donut đẹp hơn với hiệu ứng drop shadow
     drawModernWheel() {
       const svg = this.$refs.wheelSvg;
       const centerX = 250, centerY = 250;
@@ -334,13 +312,34 @@ export default {
       const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
       svg.appendChild(defs);
 
+      // Thêm filter drop shadow
+      const filter = document.createElementNS("http://www.w3.org/2000/svg", "filter");
+      filter.setAttribute("id", "dropShadow");
+      const feGaussianBlur = document.createElementNS("http://www.w3.org/2000/svg", "feGaussianBlur");
+      feGaussianBlur.setAttribute("in", "SourceAlpha");
+      feGaussianBlur.setAttribute("stdDeviation", "3");
+      filter.appendChild(feGaussianBlur);
+      const feOffset = document.createElementNS("http://www.w3.org/2000/svg", "feOffset");
+      feOffset.setAttribute("dx", "2");
+      feOffset.setAttribute("dy", "2");
+      filter.appendChild(feOffset);
+      const feMerge = document.createElementNS("http://www.w3.org/2000/svg", "feMerge");
+      const feMergeNode1 = document.createElementNS("http://www.w3.org/2000/svg", "feMergeNode");
+      const feMergeNode2 = document.createElementNS("http://www.w3.org/2000/svg", "feMergeNode");
+      feMergeNode2.setAttribute("in", "SourceGraphic");
+      feMerge.appendChild(feMergeNode1);
+      feMerge.appendChild(feMergeNode2);
+      filter.appendChild(feMerge);
+      defs.appendChild(filter);
+
       const angleStep = (2 * Math.PI) / this.areas.length;
       this.areas.forEach((area, i) => {
         const startAngle = i * angleStep - Math.PI / 2;
         const endAngle = (i + 1) * angleStep - Math.PI / 2;
         const midAngle = (startAngle + endAngle) / 2;
-
-        // Vẽ background donut segment (màu xám nhạt)
+        
+        // Vẽ background donut segment
+        const bgLargeArcFlag = (endAngle - startAngle) <= Math.PI ? 0 : 1;
         const x1 = centerX + innerRadius * Math.cos(startAngle);
         const y1 = centerY + innerRadius * Math.sin(startAngle);
         const x2 = centerX + outerRadius * Math.cos(startAngle);
@@ -349,47 +348,98 @@ export default {
         const y3 = centerY + outerRadius * Math.sin(endAngle);
         const x4 = centerX + innerRadius * Math.cos(endAngle);
         const y4 = centerY + innerRadius * Math.sin(endAngle);
-        const largeArcFlag = (endAngle - startAngle) <= Math.PI ? 0 : 1;
-        const backgroundD = [
-          "M", x1, y1,
-          "L", x2, y2,
-          "A", outerRadius, outerRadius, 0, largeArcFlag, 1, x3, y3,
-          "L", x4, y4,
-          "A", innerRadius, innerRadius, 0, largeArcFlag, 0, x1, y1,
-          "Z"
-        ].join(" ");
-        const backgroundPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        backgroundPath.setAttribute("d", backgroundD);
-        backgroundPath.setAttribute("fill", "#f1f1f1");
-        svg.appendChild(backgroundPath);
-
-        // Vẽ phần được tô (theo mức độ)
+        const bgD = `M ${x1} ${y1} L ${x2} ${y2} A ${outerRadius} ${outerRadius} 0 ${bgLargeArcFlag} 1 ${x3} ${y3} L ${x4} ${y4} A ${innerRadius} ${innerRadius} 0 ${bgLargeArcFlag} 0 ${x1} ${y1} Z`;
+        const bgPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        bgPath.setAttribute("d", bgD);
+        bgPath.setAttribute("fill", "#f9f9f9");
+        svg.appendChild(bgPath);
+        
+        // Vẽ phần được tô (theo mức độ) với drop shadow
         const filledRadius = innerRadius + (outerRadius - innerRadius) * (area.value / 10);
-        const xFilledStart = centerX + innerRadius * Math.cos(startAngle);
-        const yFilledStart = centerY + innerRadius * Math.sin(startAngle);
-        const xFilledOuterStart = centerX + filledRadius * Math.cos(startAngle);
-        const yFilledOuterStart = centerY + filledRadius * Math.sin(startAngle);
-        const xFilledOuterEnd = centerX + filledRadius * Math.cos(endAngle);
-        const yFilledOuterEnd = centerY + filledRadius * Math.sin(endAngle);
-        const xFilledEnd = centerX + innerRadius * Math.cos(endAngle);
-        const yFilledEnd = centerY + innerRadius * Math.sin(endAngle);
+        const xFilled1 = centerX + innerRadius * Math.cos(startAngle);
+        const yFilled1 = centerY + innerRadius * Math.sin(startAngle);
+        const xFilled2 = centerX + filledRadius * Math.cos(startAngle);
+        const yFilled2 = centerY + filledRadius * Math.sin(startAngle);
+        const xFilled3 = centerX + filledRadius * Math.cos(endAngle);
+        const yFilled3 = centerY + filledRadius * Math.sin(endAngle);
+        const xFilled4 = centerX + innerRadius * Math.cos(endAngle);
+        const yFilled4 = centerY + innerRadius * Math.sin(endAngle);
         const filledLargeArcFlag = (endAngle - startAngle) <= Math.PI ? 0 : 1;
-        const filledD = [
-          "M", xFilledStart, yFilledStart,
-          "L", xFilledOuterStart, yFilledOuterStart,
-          "A", filledRadius, filledRadius, 0, filledLargeArcFlag, 1, xFilledOuterEnd, yFilledOuterEnd,
-          "L", xFilledEnd, yFilledEnd,
-          "A", innerRadius, innerRadius, 0, filledLargeArcFlag, 0, xFilledStart, yFilledStart,
-          "Z"
-        ].join(" ");
+        const filledD = `M ${xFilled1} ${yFilled1} L ${xFilled2} ${yFilled2} A ${filledRadius} ${filledRadius} 0 ${filledLargeArcFlag} 1 ${xFilled3} ${yFilled3} L ${xFilled4} ${yFilled4} A ${innerRadius} ${innerRadius} 0 ${filledLargeArcFlag} 0 ${xFilled1} ${yFilled1} Z`;
         const filledPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
         filledPath.setAttribute("d", filledD);
         filledPath.setAttribute("fill", area.color);
-        filledPath.setAttribute("fill-opacity", "0.7");
+        filledPath.setAttribute("fill-opacity", "0.85");
+        filledPath.setAttribute("filter", "url(#dropShadow)");
         svg.appendChild(filledPath);
-
-        // Thêm text cho tên lĩnh vực, đặt tại vị trí trung tâm của phân vùng
+        
+        // Text label
         const textRadius = innerRadius + (filledRadius - innerRadius) / 2;
+        const textX = centerX + textRadius * Math.cos(midAngle);
+        const textY = centerY + textRadius * Math.sin(midAngle);
+        const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        textEl.setAttribute("x", textX);
+        textEl.setAttribute("y", textY);
+        textEl.setAttribute("fill", "#333");
+        textEl.setAttribute("font-size", "12px");
+        textEl.setAttribute("font-weight", "bold");
+        textEl.setAttribute("text-anchor", "middle");
+        textEl.setAttribute("dominant-baseline", "middle");
+        textEl.textContent = area.name;
+        svg.appendChild(textEl);
+      });
+    },
+    // Giao diện Minimal: phiên bản tối giản với đường nét dashed và hiển thị value bằng stroke
+    drawMinimalWheel() {
+      const svg = this.$refs.wheelSvg;
+      const centerX = 250, centerY = 250;
+      const maxRadius = 200;
+      svg.innerHTML = '';
+      // Vẽ các vòng tròn dashed
+      for (let i = 1; i <= 10; i++) {
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", centerX);
+        circle.setAttribute("cy", centerY);
+        circle.setAttribute("r", maxRadius * i / 10);
+        circle.setAttribute("fill", "none");
+        circle.setAttribute("stroke", "#ccc");
+        circle.setAttribute("stroke-dasharray", "4 2");
+        circle.setAttribute("stroke-width", "1");
+        svg.appendChild(circle);
+      }
+      const angleStep = (2 * Math.PI) / this.areas.length;
+      this.areas.forEach((area, i) => {
+        const startAngle = i * angleStep - Math.PI / 2;
+        const endAngle = (i + 1) * angleStep - Math.PI / 2;
+        const midAngle = (startAngle + endAngle) / 2;
+        // Vẽ đường phân cách
+        const x = centerX + maxRadius * Math.cos(startAngle);
+        const y = centerY + maxRadius * Math.sin(startAngle);
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", centerX);
+        line.setAttribute("y1", centerY);
+        line.setAttribute("x2", x);
+        line.setAttribute("y2", y);
+        line.setAttribute("stroke", "#aaa");
+        line.setAttribute("stroke-width", "1");
+        svg.appendChild(line);
+        // Vẽ minimal value arc: sử dụng stroke thay vì fill
+        const valueRadius = maxRadius * (area.value / 10);
+        const x1Val = centerX + valueRadius * Math.cos(startAngle);
+        const y1Val = centerY + valueRadius * Math.sin(startAngle);
+        const x2Val = centerX + valueRadius * Math.cos(endAngle);
+        const y2Val = centerY + valueRadius * Math.sin(endAngle);
+        const largeArcFlag = (endAngle - startAngle) <= Math.PI ? 0 : 1;
+        const d = `M ${x1Val} ${y1Val} A ${valueRadius} ${valueRadius} 0 ${largeArcFlag} 1 ${x2Val} ${y2Val}`;
+        const arcPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        arcPath.setAttribute("d", d);
+        arcPath.setAttribute("fill", "none");
+        arcPath.setAttribute("stroke", area.color);
+        arcPath.setAttribute("stroke-width", "4");
+        arcPath.setAttribute("stroke-linecap", "round");
+        svg.appendChild(arcPath);
+        // Vẽ text ở giữa mỗi phân vùng, đặt gần mép ngoài
+        const textRadius = maxRadius * 0.9;
         const textX = centerX + textRadius * Math.cos(midAngle);
         const textY = centerY + textRadius * Math.sin(midAngle);
         const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
@@ -402,6 +452,17 @@ export default {
         textEl.textContent = area.name;
         svg.appendChild(textEl);
       });
+      // Vẽ đường chia cuối cùng
+      const lastLineX = centerX + maxRadius * Math.cos(2 * Math.PI - Math.PI / 2);
+      const lastLineY = centerY + maxRadius * Math.sin(2 * Math.PI - Math.PI / 2);
+      const lastLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      lastLine.setAttribute("x1", centerX);
+      lastLine.setAttribute("y1", centerY);
+      lastLine.setAttribute("x2", lastLineX);
+      lastLine.setAttribute("y2", lastLineY);
+      lastLine.setAttribute("stroke", "#aaa");
+      lastLine.setAttribute("stroke-width", "1");
+      svg.appendChild(lastLine);
     },
     saveAsSVG() {
       const svg = this.$refs.wheelSvg;
@@ -423,14 +484,10 @@ export default {
       const source = serializer.serializeToString(svg);
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-
       const scaleFactor = 10;
-      const width = 500 * scaleFactor;
-      const height = 500 * scaleFactor;
-
+      const width = 500 * scaleFactor, height = 500 * scaleFactor;
       canvas.width = width;
       canvas.height = height;
-
       const img = new Image();
       img.onload = () => {
         ctx.drawImage(img, 0, 0, width, height);
@@ -442,7 +499,6 @@ export default {
         a.click();
         document.body.removeChild(a);
       };
-
       img.src = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(unescape(encodeURIComponent(source)));
     }
   },
@@ -544,22 +600,40 @@ body {
   gap: var(--spacing-md);
 }
 
+/* Wheel Mode Switch: Button Group */
 .wheel-mode-switch {
   margin-bottom: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
 }
 
-.wheel-mode-switch label {
+.mode-label {
   font-size: 0.9rem;
   color: var(--text-color);
-  margin-right: var(--spacing-sm);
 }
 
-.wheel-mode-switch select {
-  padding: 0.4rem;
+.mode-buttons {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.mode-button {
+  padding: 0.4rem 0.8rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  background: #fff;
+  border-radius: var(--border-radius);
   font-size: 0.9rem;
-  outline: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.mode-button.active,
+.mode-button:hover {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
 }
 
 /* Areas Container */
@@ -824,7 +898,7 @@ body {
     max-width: 600px;
     margin: 0 auto;
   }
-
+  
   .controls-panel {
     max-width: 600px;
     margin: 0 auto;
@@ -836,17 +910,17 @@ body {
     flex-direction: column;
     align-items: stretch;
   }
-
+  
   .action-buttons {
     flex-direction: column;
   }
-
+  
   .btn-primary,
   .btn-secondary {
     width: 100%;
     justify-content: center;
   }
-
+  
   .areas-container {
     max-height: 50vh;
   }
@@ -857,16 +931,16 @@ body {
     flex-direction: column;
     gap: var(--spacing-sm);
   }
-
+  
   .color-picker {
     width: 100%;
     height: 32px;
   }
-
+  
   .area-header {
     flex-wrap: wrap;
   }
-
+  
   .area-name-input {
     width: 100%;
     order: -1;
