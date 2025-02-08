@@ -1,20 +1,24 @@
 <template>
   <footer class="footer">
     <div class="footer-wrapper">
-      <!-- Toggle Bar -->
-      <div class="toggle-bar">
-        <button class="toggle-item active">
-          <i class="fab fa-facebook-f icon-social"></i>
-        </button>
-        <button class="toggle-item">
-          <i class="fab fa-telegram icon-social"></i>
-        </button>
+      <!-- Social Media Bar -->
+      <div class="social-bar">
+        <a href="https://facebook.com" target="_blank" class="social-item" aria-label="Facebook">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="social-icon">
+            <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/>
+          </svg>
+        </a>
+        <a href="https://telegram.org" target="_blank" class="social-item" aria-label="Telegram">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="social-icon">
+            <path d="M248,8C111.033,8,0,119.033,0,256S111.033,504,248,504,496,392.967,496,256,384.967,8,248,8ZM362.952,176.66c-3.732,39.215-19.881,134.378-28.1,178.3-3.476,18.584-10.322,24.816-16.948,25.425-14.4,1.326-25.338-9.517-39.287-18.661-21.827-14.308-34.158-23.215-55.346-37.177-24.485-16.135-8.612-25,5.342-39.5,3.652-3.793,67.107-61.51,68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608,69.142-14.845,10.194-26.894,9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7,18.45-13.7,108.446-47.248,144.628-62.3c68.872-28.647,83.183-33.623,92.511-33.789,2.052-.034,6.639.474,9.61,2.885a10.452,10.452,0,0,1,3.53,6.716A43.765,43.765,0,0,1,362.952,176.66Z"/>
+          </svg>
+        </a>
       </div>
 
       <!-- Copyright Section -->
       <div class="footer-content">
-        <p class="copyright">Copyright © {{ currentYear }} HAL Inc.</p>
-        <p class="trademark">Trademark Policy</p>
+        <p class="copyright">Copyright © {{ currentYear }} HAL.</p>
+        <p class="trademark">From Long Hà with love ❤️</p>
       </div>
     </div>
   </footer>
@@ -27,16 +31,6 @@ export default {
     currentYear() {
       return new Date().getFullYear();
     }
-  },
-  mounted() {
-    // Add click event listeners to toggle buttons
-    const buttons = document.querySelectorAll('.toggle-item');
-    buttons.forEach(button => {
-      button.addEventListener('click', () => {
-        buttons.forEach(b => b.classList.remove('active'));
-        button.classList.add('active');
-      });
-    });
   }
 }
 </script>
@@ -44,8 +38,8 @@ export default {
 <style scoped>
 .footer {
   padding: 40px 20px;
-  background: linear-gradient(to bottom, #fafafa, #f5f5f5);
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  background: linear-gradient(to bottom, #ffffff, #fafafa);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .footer-wrapper {
@@ -54,71 +48,66 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px;
+  gap: 30px;
 }
 
-.toggle-bar {
+.social-bar {
   background: white;
-  padding: 6px;
+  padding: 8px;
   border-radius: 40px;
   display: flex;
-  gap: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   position: relative;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.toggle-bar:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transform: translateY(-1px);
+.social-bar:hover {
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
 }
 
-.toggle-item {
-  width: 44px;
-  height: 44px;
+.social-item {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  border: none;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   background: transparent;
   position: relative;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
 }
 
-.toggle-item:hover {
-  background: rgba(0, 0, 0, 0.03);
-}
-
-.toggle-item.active {
-  background: #f0f0f0;
-}
-
-.toggle-item.active::after {
+.social-item::before {
   content: '';
   position: absolute;
-  bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
+  inset: 0;
   border-radius: 50%;
-  background: #666;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.icon-social {
-  font-size: 18px;
-  color: #555;
+.social-item:hover::before {
+  opacity: 0.06;
+}
+
+.social-item:active {
+  transform: scale(0.95);
+}
+
+.social-icon {
+  width: 20px;
+  height: 20px;
+  fill: #444;
   transition: all 0.3s ease;
 }
 
-.toggle-item:hover .icon-social {
+.social-item:hover .social-icon {
+  fill: #1a1a1a;
   transform: scale(1.1);
-}
-
-.toggle-item.active .icon-social {
-  color: #1a1a1a;
 }
 
 .footer-content {
@@ -129,18 +118,19 @@ export default {
 .copyright {
   font-size: 15px;
   color: #333;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-weight: 500;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
 }
 
 .trademark {
   font-size: 15px;
   color: #666;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
   position: relative;
   cursor: pointer;
   display: inline-block;
+  transition: all 0.3s ease;
 }
 
 .trademark::after {
@@ -151,22 +141,26 @@ export default {
   width: 0;
   height: 1px;
   background: #666;
-  transition: width 0.3s ease;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.trademark:hover {
+  color: #333;
 }
 
 .trademark:hover::after {
   width: 100%;
 }
 
-/* Animation for active state */
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
+/* Smooth hover effect for social icons */
+@keyframes socialHover {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
 }
 
-.toggle-item.active {
-  animation: pulse 0.3s ease-in-out;
+.social-item:hover {
+  animation: socialHover 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Responsive Design */
@@ -175,17 +169,18 @@ export default {
     padding: 30px 15px;
   }
   
-  .toggle-bar {
-    padding: 4px;
+  .social-bar {
+    padding: 6px;
   }
   
-  .toggle-item {
-    width: 40px;
-    height: 40px;
+  .social-item {
+    width: 44px;
+    height: 44px;
   }
   
-  .icon-social {
-    font-size: 16px;
+  .social-icon {
+    width: 18px;
+    height: 18px;
   }
   
   .copyright, .trademark {
@@ -193,8 +188,10 @@ export default {
   }
 }
 
-/* Smooth transition for all interactive elements */
-* {
-  transition: all 0.2s ease-in-out;
+/* High-DPI Screen Optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .social-bar {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  }
 }
 </style>
