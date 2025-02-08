@@ -32,7 +32,6 @@
       </div>
     </header>
 
-
     <router-view class="page-content"></router-view>
   </div>
 </template>
@@ -157,65 +156,6 @@ export default {
 .page-content {
   padding: 20px;
   transition: background-color 0.3s ease;
-}
-
-/* Dark Mode Styles */
-@media (prefers-color-scheme: dark) {
-  .app-container {
-    background-color: #0d1117;
-    color: #c9d1d9;
-  }
-
-  .app-header {
-    background-color: #161b22;
-    border-bottom-color: #30363d;
-  }
-
-  .logo-text {
-    color: #c9d1d9;
-  }
-
-  .logo-circle {
-    filter: brightness(0.9);
-  }
-
-  .dropdown-icon svg,
-  .notification-icon svg,
-  .menu-icon svg {
-    color: #8b949e;
-  }
-
-  .dropdown-icon:hover svg,
-  .notification-icon:hover svg,
-  .menu-icon:hover svg {
-    color: #c9d1d9;
-  }
-
-  .notification-dot {
-    background-color: #f85149;
-  }
-
-  .app-nav {
-    background-color: #161b22;
-    border-bottom-color: #30363d;
-  }
-
-  .nav-item {
-    color: #c9d1d9;
-  }
-
-  .nav-item:hover {
-    background-color: #1f2428;
-  }
-
-  .nav-item.active {
-    border-bottom-color: #58a6ff;
-    color: #58a6ff;
-  }
-
-  .page-content {
-    background-color: #0d1117;
-  }
 }
 
 /* Mobile Responsive Adjustments */
