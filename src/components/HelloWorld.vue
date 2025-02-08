@@ -77,7 +77,7 @@
 
 <script>
 export default {
-  name: 'LifeWheel',
+  name: 'HelloWorld',
   data() {
     return {
       areas: [
@@ -331,15 +331,21 @@ export default {
   --text-color: #2c3e50;
   --bg-light: #f8f9fa;
   --bg-medium: #e9ecef;
+  --font-base: 'Roboto', sans-serif;
   --border-radius: 12px;
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.15);
   --transition: all 0.3s ease;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
 }
 
+/* Global Styles */
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font-base);
   margin: 0;
   padding: 0;
   background-color: var(--bg-light);
@@ -354,6 +360,7 @@ body {
   min-height: 100vh;
 }
 
+/* Header */
 .wheel-header {
   text-align: center;
   margin-bottom: clamp(1rem, 3vw, 2rem);
@@ -365,7 +372,7 @@ body {
   background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-sm);
 }
 
 .header-description {
@@ -373,6 +380,7 @@ body {
   font-size: clamp(1rem, 1.5vw, 1.2rem);
 }
 
+/* Layout */
 .content {
   display: grid;
   grid-template-columns: minmax(300px, 1fr) minmax(300px, 2fr);
@@ -380,6 +388,7 @@ body {
   align-items: start;
 }
 
+/* Controls Panel */
 .controls-panel {
   background: #fff;
   border-radius: var(--border-radius);
@@ -394,7 +403,7 @@ body {
   align-items: center;
   margin-bottom: clamp(1rem, 2vw, 1.5rem);
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: var(--spacing-md);
 }
 
 .panel-header h2 {
@@ -425,6 +434,7 @@ body {
   border-radius: 3px;
 }
 
+/* Area Card */
 .area-card {
   background: #fff;
   border: 1px solid #e1e4e8;
@@ -442,7 +452,7 @@ body {
 .area-header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--spacing-sm);
   margin-bottom: 1rem;
 }
 
@@ -490,6 +500,7 @@ body {
   font-weight: 500;
 }
 
+/* Slider */
 .slider {
   width: 100%;
   height: 8px;
@@ -538,6 +549,7 @@ body {
   transform: scale(1.1);
 }
 
+/* Color Picker */
 .color-picker {
   width: clamp(32px, 5vw, 40px);
   height: clamp(32px, 5vw, 40px);
@@ -549,6 +561,7 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
+/* Buttons */
 .btn-primary,
 .btn-secondary {
   padding: clamp(0.5rem, 1vw, 0.75rem) clamp(0.75rem, 1.5vw, 1.25rem);
@@ -574,7 +587,7 @@ body {
 }
 
 .btn-secondary {
-  background: #f8f9fa;
+  background: var(--bg-light);
   color: var(--text-color);
   border: 1px solid #e1e4e8;
 }
@@ -587,7 +600,7 @@ body {
   width: clamp(24px, 3vw, 28px);
   height: clamp(24px, 3vw, 28px);
   border: none;
-  background: #f8f9fa;
+  background: var(--bg-light);
   color: #666;
   border-radius: 50%;
   cursor: pointer;
@@ -604,6 +617,7 @@ body {
   color: #fff;
 }
 
+/* Action Buttons */
 .action-buttons {
   display: flex;
   gap: clamp(0.5rem, 1vw, 1rem);
@@ -611,6 +625,7 @@ body {
   justify-content: flex-end;
 }
 
+/* Wheel Display */
 .wheel-display {
   background: #fff;
   border-radius: var(--border-radius);
@@ -628,7 +643,7 @@ body {
   height: 100%;
 }
 
-/* Animations */
+/* List Transition Animations */
 .list-enter-active,
 .list-leave-active {
   transition: opacity 0.5s, transform 0.5s;
@@ -689,7 +704,7 @@ body {
 @media (max-width: 480px) {
   .area-controls {
     flex-direction: column;
-    gap: 0.75rem;
+    gap: var(--spacing-sm);
   }
 
   .color-picker {
@@ -704,7 +719,7 @@ body {
   .area-name-input {
     width: 100%;
     order: -1;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-sm);
   }
 }
   </style>
