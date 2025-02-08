@@ -1,72 +1,21 @@
-<!-- Footer.vue -->
 <template>
   <footer class="footer">
-    <!-- Logo -->
-    <div class="logo">
-      <svg viewBox="0 0 24 24" width="24" height="24" class="logo-svg">
-        <path d="M12 2L2 19.5h20L12 2z" 
-              fill="currentColor" 
-              stroke="currentColor" 
-              stroke-width="1"
-              stroke-linejoin="round"/>
-        <path d="M9 13.5L12 8l3 5.5H9z" 
-              fill="white" 
-              stroke="none"/>
-      </svg>
-    </div>
-    
-    <!-- Left Navigation -->
-    <div class="nav-section">
-      <div class="nav-column">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/guides" class="nav-link">Guides</a>
-        <a href="/contact" class="nav-link">Contact</a>
-      </div>
-      
-      <!-- Right Navigation -->
-      <div class="nav-column">
-        <a href="/docs" class="nav-link">Docs</a>
-        <a href="/help" class="nav-link">Help</a>
-        <div class="dropdown">
-          <button class="dropdown-button">
-            Legal
-            <span class="dropdown-arrow">›</span>
-          </button>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Status Bar -->
-    <div class="status-bar">
-      <div class="status">
-        <span class="status-dot"></span>
-        <span class="status-text">All systems normal</span>
-      </div>
-      
-      <div class="tools">
-        <button class="tool-button" title="Copy">
-          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
-            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
-          </svg>
+    <div class="footer-wrapper">
+      <!-- Toggle Bar -->
+      <div class="toggle-bar">
+        <button class="toggle-item active">
+          <i class="fab fa-facebook-f icon-social"></i>
         </button>
-        <button class="tool-button" title="Theme">
-          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
-            <circle cx="12" cy="12" r="5"/>
-            <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-          </svg>
-        </button>
-        <button class="tool-button" title="Time">
-          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 6v6l4 2"/>
-          </svg>
+        <button class="toggle-item">
+          <i class="fab fa-telegram icon-social"></i>
         </button>
       </div>
-    </div>
-    
-    <!-- Copyright -->
-    <div class="copyright">
-      © {{ currentYear }}, LongHà Inc.
+
+      <!-- Copyright Section -->
+      <div class="footer-content">
+        <p class="copyright">Copyright © {{ currentYear }} HAL Inc.</p>
+        <p class="trademark">Trademark Policy</p>
+      </div>
     </div>
   </footer>
 </template>
@@ -76,157 +25,176 @@ export default {
   name: 'PhanDitFooter',
   computed: {
     currentYear() {
-      return new Date().getFullYear()
+      return new Date().getFullYear();
     }
+  },
+  mounted() {
+    // Add click event listeners to toggle buttons
+    const buttons = document.querySelectorAll('.toggle-item');
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        button.classList.add('active');
+      });
+    });
   }
 }
 </script>
 
 <style scoped>
 .footer {
-  padding: 2rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  padding: 40px 20px;
+  background: linear-gradient(to bottom, #fafafa, #f5f5f5);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.footer-wrapper {
   max-width: 1200px;
   margin: 0 auto;
-}
-
-.logo {
-  margin-bottom: 3rem;
-  color: #000;
-}
-
-.logo-svg {
-  transition: transform 0.3s ease;
-}
-
-.logo:hover .logo-svg {
-  transform: scale(1.1);
-}
-
-.nav-section {
-  display: flex;
-  gap: 8rem;
-  margin-bottom: 3rem;
-}
-
-.nav-column {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-}
-
-.nav-link {
-  color: #666;
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: 400;
-  transition: color 0.2s;
-}
-
-.nav-link:hover {
-  color: #000;
-}
-
-.dropdown-button {
-  color: #666;
-  background: none;
-  border: none;
-  padding: 0;
-  font: inherit;
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 25px;
 }
 
-.dropdown-button:hover {
-  color: #000;
-}
-
-.dropdown-arrow {
-  font-size: 1.2rem;
-  transform: rotate(90deg);
-  display: inline-block;
-}
-
-.status-bar {
+.toggle-bar {
+  background: white;
+  padding: 6px;
+  border-radius: 40px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  padding-top: 2rem;
+  gap: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: relative;
+  transition: all 0.3s ease;
 }
 
-.status {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.toggle-bar:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
 }
 
-.status-dot {
-  width: 8px;
-  height: 8px;
-  background-color: #0070f3;
+.toggle-item {
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-}
-
-.status-text {
-  color: #0070f3;
-  font-size: 1rem;
-}
-
-.tools {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.tool-button {
-  background: none;
   border: none;
-  padding: 0.5rem;
   cursor: pointer;
-  border-radius: 0.5rem;
-  color: #666;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
+  position: relative;
+  transition: all 0.3s ease;
 }
 
-.tool-button:hover {
-  background-color: #f5f5f5;
-  color: #000;
+.toggle-item:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.toggle-item.active {
+  background: #f0f0f0;
+}
+
+.toggle-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #666;
+}
+
+.icon-social {
+  font-size: 18px;
+  color: #555;
+  transition: all 0.3s ease;
+}
+
+.toggle-item:hover .icon-social {
+  transform: scale(1.1);
+}
+
+.toggle-item.active .icon-social {
+  color: #1a1a1a;
+}
+
+.footer-content {
+  text-align: center;
+  opacity: 0.9;
 }
 
 .copyright {
-  color: #666;
-  font-size: 0.875rem;
-  margin-top: 2rem;
-  border-top: 1px solid #eaeaea;
-  padding-top: 2rem;
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 8px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
 }
 
-@media (max-width: 640px) {
+.trademark {
+  font-size: 15px;
+  color: #666;
+  letter-spacing: 0.2px;
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.trademark::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #666;
+  transition: width 0.3s ease;
+}
+
+.trademark:hover::after {
+  width: 100%;
+}
+
+/* Animation for active state */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.toggle-item.active {
+  animation: pulse 0.3s ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .footer {
-    padding: 1.5rem;
+    padding: 30px 15px;
   }
+  
+  .toggle-bar {
+    padding: 4px;
+  }
+  
+  .toggle-item {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .icon-social {
+    font-size: 16px;
+  }
+  
+  .copyright, .trademark {
+    font-size: 14px;
+  }
+}
 
-  .nav-section {
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .nav-column {
-    gap: 1rem;
-  }
-
-  .status-bar {
-    margin: 1.5rem 0;
-  }
-
-  .status-text {
-    font-size: 0.938rem;
-  }
+/* Smooth transition for all interactive elements */
+* {
+  transition: all 0.2s ease-in-out;
 }
 </style>
