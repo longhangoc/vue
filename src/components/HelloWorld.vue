@@ -693,46 +693,4 @@ body {
   }
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .life-wheel-container {
-    background: linear-gradient(to bottom right, #1a1a1a, #2d2d2d);
-  }
-
-  .controls-panel,
-  .wheel-display,
-  .area-card {
-    background: #2d2d2d;
-    border-color: #404040;
-  }
-
-  .area-name-input {
-    background: #404040;
-    color: #fff;
-    border-color: #505050;
-  }
-
-  .btn-secondary {
-    background: #404040;
-    color: #fff;
-    border-color: #505050;
-  }
-
-  .btn-secondary:hover {
-    background: #505050;
-  }
-
-  .btn-icon-remove {
-    background: #404040;
-    color: #fff;
-  }
-
-  .value-label {
-    color: #fff;
-  }
-
-  .header-description {
-    color: #ccc;
-  }
-}
   </style>
