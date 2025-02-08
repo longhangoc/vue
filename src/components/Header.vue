@@ -62,6 +62,8 @@ export default {
   align-items: center;
   padding: 12px 16px;
   border-bottom: 1px solid #e1e4e8;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
 }
 
 .header-left {
@@ -80,15 +82,18 @@ export default {
   width: 32px;
   height: 32px;
   border-radius: 50%;
+  transition: filter 0.3s ease;
 }
 
 .logo-text {
   font-weight: 600;
   color: #24292e;
+  transition: color 0.3s ease;
 }
 
 .dropdown-icon svg {
   color: #586069;
+  transition: color 0.3s ease;
 }
 
 .header-right {
@@ -106,6 +111,18 @@ export default {
   position: relative;
 }
 
+.notification-icon svg,
+.menu-icon svg {
+  color: #586069;
+  transition: color 0.3s ease;
+}
+
+.notification-icon:hover svg,
+.menu-icon:hover svg,
+.dropdown-icon:hover svg {
+  color: #24292e;
+}
+
 .notification-dot {
   position: absolute;
   top: -4px;
@@ -114,11 +131,14 @@ export default {
   height: 10px;
   background-color: #ff4d4f;
   border-radius: 50%;
+  transition: background-color 0.3s ease;
 }
 
 .app-nav {
   display: flex;
   border-bottom: 1px solid #e1e4e8;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
 }
 
 .nav-item {
@@ -126,6 +146,7 @@ export default {
   text-decoration: none;
   color: #24292e;
   font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .nav-item.active {
@@ -135,5 +156,95 @@ export default {
 
 .page-content {
   padding: 20px;
+  transition: background-color 0.3s ease;
+}
+
+/* Dark Mode Styles */
+@media (prefers-color-scheme: dark) {
+  .app-container {
+    background-color: #0d1117;
+    color: #c9d1d9;
+  }
+
+  .app-header {
+    background-color: #161b22;
+    border-bottom-color: #30363d;
+  }
+
+  .logo-text {
+    color: #c9d1d9;
+  }
+
+  .logo-circle {
+    filter: brightness(0.9);
+  }
+
+  .dropdown-icon svg,
+  .notification-icon svg,
+  .menu-icon svg {
+    color: #8b949e;
+  }
+
+  .dropdown-icon:hover svg,
+  .notification-icon:hover svg,
+  .menu-icon:hover svg {
+    color: #c9d1d9;
+  }
+
+  .notification-dot {
+    background-color: #f85149;
+  }
+
+  .app-nav {
+    background-color: #161b22;
+    border-bottom-color: #30363d;
+  }
+
+  .nav-item {
+    color: #c9d1d9;
+  }
+
+  .nav-item:hover {
+    background-color: #1f2428;
+  }
+
+  .nav-item.active {
+    border-bottom-color: #58a6ff;
+    color: #58a6ff;
+  }
+
+  .page-content {
+    background-color: #0d1117;
+  }
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+  .logo-text {
+    font-size: 14px;
+  }
+
+  .header-icons {
+    gap: 12px;
+  }
+
+  .logo-circle {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 8px 12px;
+  }
+
+  .logo-text {
+    display: none;
+  }
+
+  .header-icons {
+    gap: 8px;
+  }
 }
 </style>
