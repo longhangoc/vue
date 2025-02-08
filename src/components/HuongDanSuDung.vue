@@ -1,13 +1,23 @@
 <template>
   <div class="life-balance-guide">
-    <h2 class="guide-title">Hướng Dẫn Sử Dụng</h2>
+    <h2 class="guide-title">
+      <span class="title-icon">📚</span>
+      Hướng Dẫn Sử Dụng
+    </h2>
+    
     <div class="steps-container">
       <div 
         v-for="(step, index) in steps" 
         :key="index" 
         class="step-item"
+        :class="{ 'active': activeStep === index }"
+        @mouseenter="activeStep = index"
+        @mouseleave="activeStep = null"
       >
-        <div class="step-icon-wrapper" :class="step.iconClass">
+        <div class="progress-line" v-if="index < steps.length - 1"></div>
+        
+        <div class="step-icon-wrapper" :class="[step.iconClass, { 'pulse': activeStep === index }]">
+          <div class="step-number">{{ index + 1 }}</div>
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
             viewBox="0 0 24 24" 
@@ -16,10 +26,15 @@
             <path :d="step.iconPath" />
           </svg>
         </div>
+
         <div class="step-content">
-          <div class="step-number">{{ index + 1 }}</div>
           <h3 class="step-title">{{ step.title }}</h3>
           <p class="step-description">{{ step.description }}</p>
+          <div class="step-details" v-if="step.details">
+            <ul>
+              <li v-for="(detail, idx) in step.details" :key="idx">{{ detail }}</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -31,29 +46,35 @@ export default {
   name: 'HuongDanSuDung',
   data() {
     return {
+      activeStep: null,
       steps: [
         { 
           iconPath: "M12 5v14m-7-7l7-7 7 7",
           title: "Thêm Lĩnh Vực", 
-          description: "Chọn các lĩnh vực cuộc sống để đánh giá.",
-          iconClass: 'icon-blue'
+          description: "Chọn các lĩnh vực cuộc sống quan trọng để đánh giá mức độ cân bằng.",
+          iconClass: 'icon-blue',
+          details: [
+            "Sức khỏe & Thể chất",
+            "Công việc & Sự nghiệp",
+            "Mối quan hệ & Gia đình"
+          ]
         },
         { 
           iconPath: "M12 17.75l-6.172 3.845 1.179-6.873-5-4.867 6.9-1 3.094-6.253 3.094 6.253 6.9 1-5 4.867 1.179 6.873z",
-          title: "Đánh Giá", 
-          description: "Cho điểm từ 1-10 cho mỗi lĩnh vực.",
+          title: "Đánh Giá Chi Tiết", 
+          description: "Đánh giá mức độ hài lòng từ 1-10 cho mỗi lĩnh vực của cuộc sống.",
           iconClass: 'icon-purple'
         },
         { 
           iconPath: "M8 14l3 3 5-5",
-          title: "Phân Tích", 
-          description: "Xem trực quan mức độ cân bằng.",
+          title: "Phân Tích Kết Quả", 
+          description: "Xem biểu đồ trực quan về mức độ cân bằng trong cuộc sống của bạn.",
           iconClass: 'icon-green'
         },
         { 
           iconPath: "M4 16v6h16v-6M16 10l-4-4-4 4m4-4v10",
-          title: "Lưu Trữ", 
-          description: "Tải và theo dõi tiến trình.",
+          title: "Theo Dõi & Cải Thiện", 
+          description: "Lưu kết quả và theo dõi sự tiến bộ theo thời gian.",
           iconClass: 'icon-orange'
         }
       ]
@@ -65,115 +86,215 @@ export default {
 <style scoped>
 .life-balance-guide {
   max-width: 1200px;
-  margin: 1rem auto;
-  padding: 1.5rem;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 .guide-title {
   text-align: center;
-  color: #2c3e50;
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
+  color: #1a1a1a;
+  font-size: 2rem;
+  margin-bottom: 3rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.title-icon {
+  font-size: 2.2rem;
 }
 
 .steps-container {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  gap: 2rem;
+  position: relative;
 }
 
 @media screen and (min-width: 768px) {
   .steps-container {
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  .step-item {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    flex: 1;
-    border-bottom: none;
-    border-right: 1px solid #f0f0f0;
-    padding: 1rem;
-  }
-
-  .step-item:last-child {
-    border-right: none;
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
 .step-item {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid #f0f0f0;
-  transition: all 0.3s ease;
+  position: relative;
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: white;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .step-item:hover {
-  background-color: #f9f9f9;
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  border-color: transparent;
+}
+
+.progress-line {
+  position: absolute;
+  top: 40px;
+  right: -50%;
+  width: 100%;
+  height: 2px;
+  background: #e0e0e0;
+  z-index: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .progress-line {
+    display: none;
+  }
 }
 
 .step-icon-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
 }
 
-.icon-blue { background-color: rgba(52, 152, 219, 0.1); color: #3498db; }
-.icon-purple { background-color: rgba(155, 89, 182, 0.1); color: #9b59b6; }
-.icon-green { background-color: rgba(46, 204, 113, 0.1); color: #2ecc71; }
-.icon-orange { background-color: rgba(230, 126, 34, 0.1); color: #e67e22; }
-
-.step-icon {
+.step-number {
+  position: absolute;
+  top: -8px;
+  right: -8px;
   width: 24px;
   height: 24px;
+  border-radius: 50%;
+  background: white;
+  color: #1a1a1a;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.icon-blue { 
+  background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+  color: white;
+}
+
+.icon-purple { 
+  background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+  color: white;
+}
+
+.icon-green { 
+  background: linear-gradient(135deg, #34D399 0%, #10B981 100%);
+  color: white;
+}
+
+.icon-orange { 
+  background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+  color: white;
+}
+
+.step-icon {
+  width: 28px;
+  height: 28px;
   stroke: currentColor;
   stroke-width: 2;
   fill: none;
 }
 
 .step-content {
-  flex-grow: 1;
   position: relative;
 }
 
-@media screen and (min-width: 768px) {
-  .step-content {
-    text-align: center;
-    margin-top: 1rem;
-  }
-
-  .step-number {
-    position: static;
-    margin-bottom: 0.5rem;
-  }
-}
-
-.step-number {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 0.8rem;
-  color: #bdc3c7;
-  font-weight: bold;
-}
-
 .step-title {
-  font-size: 1rem;
-  color: #2c3e50;
-  margin-bottom: 0.25rem;
+  font-size: 1.1rem;
+  color: #1a1a1a;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
 }
 
 .step-description {
-  font-size: 0.875rem;
-  color: #7f8c8d;
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.step-details {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.step-details ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.step-details li {
+  padding: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.step-details li::before {
+  content: "•";
+  color: #3B82F6;
+  font-weight: bold;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+.active .step-icon-wrapper {
+  transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .life-balance-guide {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .steps-container {
+    grid-template-columns: 1fr;
+  }
+
+  .step-item {
+    padding: 1.25rem;
+  }
+
+  .guide-title {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+  }
+}
+
+/* High-DPI Screen Optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .step-item {
+    border-width: 0.5px;
+  }
 }
 </style>
