@@ -329,23 +329,28 @@ export default {
   --secondary-color: #2ecc71;
   --danger-color: #e74c3c;
   --text-color: #2c3e50;
+  --bg-light: #f8f9fa;
+  --bg-medium: #e9ecef;
   --border-radius: 12px;
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.15);
+  --transition: all 0.3s ease;
 }
 
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
+  background-color: var(--bg-light);
+  -webkit-font-smoothing: antialiased;
 }
 
 .life-wheel-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: clamp(10px, 2vw, 20px);
-  background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
+  background: linear-gradient(135deg, var(--bg-light), var(--bg-medium));
   min-height: 100vh;
 }
 
@@ -357,7 +362,7 @@ body {
 
 .text-gradient {
   font-size: clamp(2rem, 4vw, 3rem);
-  background: linear-gradient(45deg, #3498db, #2ecc71);
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 0.5rem;
@@ -376,7 +381,7 @@ body {
 }
 
 .controls-panel {
-  background: white;
+  background: #fff;
   border-radius: var(--border-radius);
   padding: clamp(1rem, 2vw, 1.5rem);
   box-shadow: var(--shadow-md);
@@ -426,7 +431,7 @@ body {
   border-radius: 8px;
   padding: clamp(0.75rem, 1.5vw, 1rem);
   margin-bottom: 1rem;
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
 .area-card:hover {
@@ -456,13 +461,14 @@ body {
   border: 1px solid #e1e4e8;
   border-radius: 6px;
   font-size: clamp(0.875rem, 1.5vw, 1rem);
-  transition: border-color 0.3s;
+  transition: border-color 0.3s ease;
   min-width: 0;
 }
 
 .area-name-input:focus {
   border-color: var(--primary-color);
   outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
 .area-controls {
@@ -488,6 +494,7 @@ body {
   width: 100%;
   height: 8px;
   -webkit-appearance: none;
+  appearance: none;
   background: #e1e4e8;
   border-radius: 4px;
   outline: none;
@@ -501,14 +508,15 @@ body {
 
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
+  appearance: none;
   width: clamp(20px, 3vw, 24px);
   height: clamp(20px, 3vw, 24px);
-  background: white;
+  background: #fff;
   border: 2px solid var(--primary-color);
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease;
 }
 
 .slider::-webkit-slider-thumb:hover {
@@ -518,12 +526,16 @@ body {
 .slider::-moz-range-thumb {
   width: clamp(20px, 3vw, 24px);
   height: clamp(20px, 3vw, 24px);
-  background: white;
+  background: #fff;
   border: 2px solid var(--primary-color);
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease;
+}
+
+.slider::-moz-range-thumb:hover {
+  transform: scale(1.1);
 }
 
 .color-picker {
@@ -534,15 +546,17 @@ body {
   cursor: pointer;
   padding: 2px;
   flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
 }
 
-.btn-primary, .btn-secondary {
+.btn-primary,
+.btn-secondary {
   padding: clamp(0.5rem, 1vw, 0.75rem) clamp(0.75rem, 1.5vw, 1.25rem);
   border: none;
   border-radius: 6px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--transition);
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -552,7 +566,7 @@ body {
 
 .btn-primary {
   background: var(--primary-color);
-  color: white;
+  color: #fff;
 }
 
 .btn-primary:hover {
@@ -581,13 +595,13 @@ body {
   align-items: center;
   justify-content: center;
   font-size: clamp(1rem, 1.5vw, 1.25rem);
-  transition: all 0.2s ease;
+  transition: var(--transition);
   flex-shrink: 0;
 }
 
 .btn-icon-remove:hover {
   background: var(--danger-color);
-  color: white;
+  color: #fff;
 }
 
 .action-buttons {
@@ -598,7 +612,7 @@ body {
 }
 
 .wheel-display {
-  background: white;
+  background: #fff;
   border-radius: var(--border-radius);
   padding: clamp(1rem, 3vw, 2rem);
   box-shadow: var(--shadow-md);
@@ -617,7 +631,7 @@ body {
 /* Animations */
 .list-enter-active,
 .list-leave-active {
-  transition: all 0.5s ease;
+  transition: opacity 0.5s, transform 0.5s;
 }
 
 .list-enter-from,
@@ -661,7 +675,8 @@ body {
     flex-direction: column;
   }
 
-  .btn-primary, .btn-secondary {
+  .btn-primary,
+  .btn-secondary {
     width: 100%;
     justify-content: center;
   }
@@ -692,5 +707,5 @@ body {
     margin-bottom: 0.5rem;
   }
 }
-
   </style>
+  
