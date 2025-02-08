@@ -61,7 +61,7 @@
 
 <script>
 export default {
-  name: 'ProjectApp',
+  name: 'PhanDauHeadet',
   data() {
     return {
       logoColors: {
