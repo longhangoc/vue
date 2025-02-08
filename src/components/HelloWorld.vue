@@ -612,18 +612,28 @@ body {
   background: #fff;
   border-radius: 999px;
   font-size: 0.9rem;
+  letter-spacing: 0.5px;
   cursor: pointer;
-  transition: background 0.3s ease, border 0.3s ease;
-  color: var(--text-color); /* Đảm bảo có màu chữ khi chưa active */
-  overflow: visible;
+  transition: background 0.3s ease, border 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  color: #333; /* Màu chữ mặc định */
+  outline: none;
 }
 
-.mode-button:hover,
+.mode-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+}
+
+.mode-button:hover {
+  background: #f0f0f0; /* Màu khi hover nhẹ nhàng */
+  border-color: #bbb;
+}
+
 .mode-button.active {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
-  color: #fff !important;  /* Sử dụng !important để ưu tiên hiển thị màu trắng */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #007bff; /* Màu nền khi chọn */
+  border-color: #0056b3;
+  color: #fff; /* Đảm bảo chữ luôn hiển thị rõ ràng */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* Areas Container */
