@@ -1,14 +1,14 @@
 <template>
   <div class="life-wheel-container">
     <header class="wheel-header">
-      <h1 class="text-gradient">Bánh xe cuộc đời</h1>
-      <p class="header-description">Đánh giá và cân bằng các khía cạnh trong cuộc sống của bạn</p>
+  
     </header>
 
     <div class="content">
       <!-- Controls Panel -->
       <section class="controls-panel">
         <div class="panel-header">
+          
           <button @click="addArea" class="btn-secondary" :disabled="areas.length >= 12">
             <span class="btn-icon">+</span> Thêm lĩnh vực
           </button>
@@ -77,7 +77,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'LifeWheel',
   data() {
     return {
       areas: [
@@ -147,7 +147,7 @@ export default {
       const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
       svg.appendChild(defs);
 
-      // Draw concentric circles and numbers
+      // Vẽ các vòng tròn đồng tâm và số vòng
       for (let i = 1; i <= 10; i++) {
         const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
         circle.setAttribute("cx", centerX);
@@ -173,7 +173,7 @@ export default {
         const endAngle = (i + 1) * angleStep - Math.PI / 2;
         const midAngle = (startAngle + endAngle) / 2;
 
-        // Draw dividing lines
+        // Vẽ đường phân cách
         const x2 = centerX + maxRadius * Math.cos(startAngle);
         const y2 = centerY + maxRadius * Math.sin(startAngle);
         const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -185,7 +185,7 @@ export default {
         line.setAttribute("stroke-width", "2");
         svg.appendChild(line);
 
-        // Draw outer border
+        // Vẽ viền ngoài
         const x1 = centerX + maxRadius * Math.cos(startAngle);
         const y1 = centerY + maxRadius * Math.sin(startAngle);
         const x2End = centerX + maxRadius * Math.cos(endAngle);
@@ -203,7 +203,7 @@ export default {
         outerArc.setAttribute("stroke-width", "2");
         svg.appendChild(outerArc);
 
-        // Text path for labels
+        // Text path
         const pathId = `textPath${i}`;
         const textRadius = maxRadius + 20;
         const isBottomHalf = midAngle > 0 && midAngle < Math.PI;
@@ -248,7 +248,7 @@ export default {
         textEl.appendChild(textPathElement);
         svg.appendChild(textEl);
 
-        // Draw value section
+        // Vẽ phần value
         const radius = maxRadius * (area.value / 10);
         const valueX1 = centerX + radius * Math.cos(startAngle);
         const valueY1 = centerY + radius * Math.sin(startAngle);
@@ -322,20 +322,17 @@ export default {
   }
 }
 </script>
+
 <style scoped>
 :root {
-  --primary-color: #4361ee;
-  --primary-hover: #3730a3;
-  --secondary-color: #2dd4bf;
-  --danger-color: #ef4444;
-  --danger-hover: #dc2626;
-  --text-color: #1e293b;
-  --border-color: #e2e8f0;
-  --bg-hover: #f1f5f9;
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
-  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --danger-color: #e74c3c;
+  --text-color: #2c3e50;
   --border-radius: 12px;
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
 }
 
 body {
@@ -360,14 +357,14 @@ body {
 
 .text-gradient {
   font-size: clamp(2rem, 4vw, 3rem);
-  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  background: linear-gradient(45deg, #3498db, #2ecc71);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 0.5rem;
 }
 
 .header-description {
-  color: var(--text-color);
+  color: #666;
   font-size: clamp(1rem, 1.5vw, 1.2rem);
 }
 
@@ -384,7 +381,6 @@ body {
   padding: clamp(1rem, 2vw, 1.5rem);
   box-shadow: var(--shadow-md);
   height: fit-content;
-  border: 2px solid var(--border-color);
 }
 
 .panel-header {
@@ -425,17 +421,16 @@ body {
 }
 
 .area-card {
-  background: white;
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
-  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  padding: clamp(0.75rem, 1.5vw, 1rem);
   margin-bottom: 1rem;
   transition: all 0.3s ease;
 }
 
 .area-card:hover {
-  border-color: var(--primary-color);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
   transform: translateY(-2px);
 }
 
@@ -457,18 +452,17 @@ body {
 
 .area-name-input {
   flex: 1;
-  padding: 0.625rem;
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
+  padding: 0.5rem;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  transition: border-color 0.3s;
   min-width: 0;
 }
 
 .area-name-input:focus {
   border-color: var(--primary-color);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
 }
 
 .area-controls {
@@ -485,7 +479,7 @@ body {
 .value-label {
   display: block;
   font-size: clamp(0.75rem, 1.2vw, 0.9rem);
-  color: var(--text-color);
+  color: #4a5568;
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
@@ -494,7 +488,7 @@ body {
   width: 100%;
   height: 8px;
   -webkit-appearance: none;
-  background: var(--border-color);
+  background: #e1e4e8;
   border-radius: 4px;
   outline: none;
   margin: 10px 0;
@@ -507,61 +501,53 @@ body {
 
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 22px;
-  height: 22px;
+  width: clamp(20px, 3vw, 24px);
+  height: clamp(20px, 3vw, 24px);
   background: white;
   border: 2px solid var(--primary-color);
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
 }
 
 .slider::-webkit-slider-thumb:hover {
-  transform: scale(1.15);
-  box-shadow: var(--shadow-md);
+  transform: scale(1.1);
 }
 
 .slider::-moz-range-thumb {
-  width: 22px;
-  height: 22px;
+  width: clamp(20px, 3vw, 24px);
+  height: clamp(20px, 3vw, 24px);
   background: white;
   border: 2px solid var(--primary-color);
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
 }
 
 .color-picker {
   width: clamp(32px, 5vw, 40px);
   height: clamp(32px, 5vw, 40px);
-  border: 2px solid var(--border-color);
+  border: none;
   border-radius: 8px;
   cursor: pointer;
   padding: 2px;
   flex-shrink: 0;
-  transition: all 0.2s ease;
-}
-
-.color-picker:hover {
-  transform: scale(1.05);
-  box-shadow: var(--shadow-sm);
 }
 
 .btn-primary, .btn-secondary {
-  padding: 0.75rem 1.25rem;
+  padding: clamp(0.5rem, 1vw, 0.75rem) clamp(0.75rem, 1.5vw, 1.25rem);
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: 6px;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.95rem;
+  font-size: clamp(0.875rem, 1.2vw, 1rem);
   white-space: nowrap;
-  box-shadow: var(--shadow-sm);
 }
 
 .btn-primary {
@@ -570,55 +556,38 @@ body {
 }
 
 .btn-primary:hover {
-  background: var(--primary-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  background: #2980b9;
 }
 
 .btn-secondary {
-  background: white;
+  background: #f8f9fa;
   color: var(--text-color);
-  border: 2px solid var(--border-color);
+  border: 1px solid #e1e4e8;
 }
 
 .btn-secondary:hover {
-  background: var(--bg-hover);
-  border-color: var(--primary-color);
-  transform: translateY(-1px);
-}
-
-.btn-secondary:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
+  background: #e9ecef;
 }
 
 .btn-icon-remove {
-  width: 28px;
-  height: 28px;
-  border: 2px solid var(--border-color);
-  background: white;
-  color: var(--text-color);
+  width: clamp(24px, 3vw, 28px);
+  height: clamp(24px, 3vw, 28px);
+  border: none;
+  background: #f8f9fa;
+  color: #666;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
   transition: all 0.2s ease;
   flex-shrink: 0;
 }
 
 .btn-icon-remove:hover {
   background: var(--danger-color);
-  border-color: var(--danger-color);
   color: white;
-}
-
-.btn-icon-remove:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  background: var(--bg-hover);
 }
 
 .action-buttons {
@@ -633,7 +602,6 @@ body {
   border-radius: var(--border-radius);
   padding: clamp(1rem, 3vw, 2rem);
   box-shadow: var(--shadow-md);
-  border: 2px solid var(--border-color);
 }
 
 .wheel-container {
@@ -724,4 +692,5 @@ body {
     margin-bottom: 0.5rem;
   }
 }
-</style>
+
+  </style>
