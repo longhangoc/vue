@@ -77,7 +77,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'LifeWheel',
   data() {
     return {
       areas: [
@@ -578,22 +578,22 @@ body {
 }
 
 .btn-primary {
-  background: var(--primary-color);
+  background: #e67e22;  /* Màu cam ấm */
   color: #fff;
 }
 
 .btn-primary:hover {
-  background: #2980b9;
+  background: #d35400;  /* Màu cam đậm */
 }
 
 .btn-secondary {
-  background: var(--bg-light);
-  color: var(--text-color);
-  border: 1px solid #e1e4e8;
+  background: #ecf0f1;  /* Màu xám nhạt */
+  color: #2c3e50;
+  border: 1px solid #bdc3c7;
 }
 
 .btn-secondary:hover {
-  background: #e9ecef;
+  background: #d0d7de;
 }
 
 .btn-icon-remove {
