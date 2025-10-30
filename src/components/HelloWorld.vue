@@ -32,6 +32,8 @@
                     @click="setWheelMode('modern')">Modern</button>
             <button :class="{'mode-button': true, active: wheelMode==='minimal'}"
                     @click="setWheelMode('minimal')">Minimal</button>
+            <button :class="{'mode-button': true, active: wheelMode==='diagram'}"
+                    @click="setWheelMode('diagram')">Diagram</button>
           </div>
         </div>
 
@@ -192,6 +194,8 @@ export default {
         this.drawModernWheel();
       } else if (this.wheelMode === 'minimal') {
         this.drawMinimalWheel();
+      } else if (this.wheelMode === 'diagram') {
+        this.drawDiagramWheel();
       }
     },
     // --- Giao diện Classic ---
@@ -266,14 +270,14 @@ export default {
         }
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("id", pathId);
-        path.setAttribute("d", `M ${pathStart.x} ${pathStart.y} A ${textRadius} ${textRadius} 0 0 ${isBottomHalf ? 0 : 1} ${pathEnd.x} ${pathEnd.y}`);
+        path.setAttribute("d", `M ${pathStart.x} ${pathStart.y} A ${textRadius} ${textRadius} 0 ${isBottomHalf ? 0 : 1} ${pathEnd.x} ${pathEnd.y}`);
         path.setAttribute("fill", "none");
         defs.appendChild(path);
         const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
         textEl.setAttribute("fill", "#fff");
         textEl.setAttribute("font-size", "12px");
         textEl.setAttribute("font-weight", "bold");
-        const textPathElement = document.createElementNS("http://www.w3.org/2000/svg", "textPath");
+        const textPathElement = document.createElementNS("http://www.w3.org/1999/xlink", "textPath");
         textPathElement.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `#${pathId}`);
         textPathElement.setAttribute("startOffset", "50%");
         textPathElement.setAttribute("text-anchor", "middle");
@@ -451,6 +455,109 @@ export default {
       lastLine.setAttribute("stroke", "#aaa");
       lastLine.setAttribute("stroke-width", "1");
       svg.appendChild(lastLine);
+    },
+    // --- Giao diện Diagram sắc nét theo mẫu ---
+    drawDiagramWheel() {
+      const svg = this.$refs.wheelSvg;
+      const centerX = 250, centerY = 250;
+      const maxRadius = 200;
+      svg.innerHTML = '';
+      // Vẽ nền trắng toàn bộ
+      const bg = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      bg.setAttribute("cx", centerX);
+      bg.setAttribute("cy", centerY);
+      bg.setAttribute("r", maxRadius + 28);
+      bg.setAttribute("fill", "#fff");
+      svg.appendChild(bg);
+      // Vẽ vòng tròn từng cấp (xám nhạt, nét đậm hơn classic)
+      for (let i = 1; i <= 10; i++) {
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", centerX);
+        circle.setAttribute("cy", centerY);
+        circle.setAttribute("r", maxRadius * i / 10);
+        circle.setAttribute("fill", "none");
+        circle.setAttribute("stroke", '#bbb');
+        circle.setAttribute("stroke-width", "2.5");
+        svg.appendChild(circle);
+      }
+      // Vẽ phân vùng có màu sắc đậm
+      const angleStep = (2 * Math.PI) / this.areas.length;
+      this.areas.forEach((area, i) => {
+        // Vẽ phân vùng sector
+        const startAngle = i * angleStep - Math.PI/2;
+        const endAngle = (i + 1) * angleStep - Math.PI/2;
+        const x1 = centerX + maxRadius * Math.cos(startAngle);
+        const y1 = centerY + maxRadius * Math.sin(startAngle);
+        const x2 = centerX + maxRadius * Math.cos(endAngle);
+        const y2 = centerY + maxRadius * Math.sin(endAngle);
+        // Polygon full region cho từng vùng
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        const largeArc = (endAngle - startAngle) > Math.PI ? 1 : 0;
+        const d = `M ${centerX} ${centerY} L ${x1} ${y1} A ${maxRadius} ${maxRadius} 0 ${largeArc} 1 ${x2} ${y2} Z`;
+        path.setAttribute("d", d);
+        path.setAttribute("fill", area.color);
+        path.setAttribute("fill-opacity", "0.53");
+        path.setAttribute("stroke", "#333");
+        path.setAttribute("stroke-width", "2");
+        svg.appendChild(path);
+        // Vẽ sector value nhỏ hơn cho từng giá trị
+        const valueRadius = maxRadius * (area.value / 10);
+        const x1v = centerX + valueRadius * Math.cos(startAngle);
+        const y1v = centerY + valueRadius * Math.sin(startAngle);
+        const x2v = centerX + valueRadius * Math.cos(endAngle);
+        const y2v = centerY + valueRadius * Math.sin(endAngle);
+        const pathV = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        const dV = `M ${centerX} ${centerY} L ${x1v} ${y1v} A ${valueRadius} ${valueRadius} 0 ${largeArc} 1 ${x2v} ${y2v} Z`;
+        pathV.setAttribute("d", dV);
+        pathV.setAttribute("fill", area.color);
+        pathV.setAttribute("fill-opacity", "1");
+        pathV.setAttribute("stroke", "#111");
+        pathV.setAttribute("stroke-width", "1.5");
+        svg.appendChild(pathV);
+        // Vẽ text số lớn trắng, nằm giữa sector value
+        const midAngle = (startAngle + endAngle) / 2;
+        const textRadius = valueRadius * 0.65;
+        const tx = centerX + textRadius * Math.cos(midAngle);
+        const ty = centerY + textRadius * Math.sin(midAngle) + 4;
+        const valueText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        valueText.setAttribute("x", tx);
+        valueText.setAttribute("y", ty);
+        valueText.setAttribute("fill", "#fff");
+        valueText.setAttribute("font-size", "2.2em");
+        valueText.setAttribute("font-weight", "bold");
+        valueText.setAttribute("text-anchor", "middle");
+        valueText.setAttribute("dominant-baseline", "middle");
+        valueText.textContent = area.value;
+        svg.appendChild(valueText);
+        // Vẽ label tên (to, rõ, ngoài cùng, đậm)
+        const labelRadius = maxRadius + 20;
+        const lx = centerX + labelRadius * Math.cos(midAngle);
+        const ly = centerY + labelRadius * Math.sin(midAngle) + 6;
+        const labelText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        labelText.setAttribute("x", lx);
+        labelText.setAttribute("y", ly);
+        labelText.setAttribute("fill", "#161616");
+        labelText.setAttribute("font-size", "1.17em");
+        labelText.setAttribute("font-weight", "bold");
+        labelText.setAttribute("text-anchor", "middle");
+        labelText.setAttribute("dominant-baseline", "middle");
+        labelText.textContent = area.name;
+        svg.appendChild(labelText);
+      });
+      // Vẽ đường chia sector nét rõ ngoài cùng
+      for(let i = 0; i < this.areas.length; i++) {
+        const angle = i * angleStep - Math.PI/2;
+        const x = centerX + maxRadius * Math.cos(angle);
+        const y = centerY + maxRadius * Math.sin(angle);
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", centerX);
+        line.setAttribute("y1", centerY);
+        line.setAttribute("x2", x);
+        line.setAttribute("y2", y);
+        line.setAttribute("stroke", "#222");
+        line.setAttribute("stroke-width", "2");
+        svg.appendChild(line);
+      }
     },
     saveAsSVG() {
       const svg = this.$refs.wheelSvg;
