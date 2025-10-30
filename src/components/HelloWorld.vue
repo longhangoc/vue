@@ -25,25 +25,13 @@
         <!-- Wheel Mode Switch: Segmented Control -->
         <div class="wheel-mode-switch">
           <span class="mode-label">Chọn giao diện bánh xe:</span>
-          <div class="mode-buttons fancy-modes">
+          <div class="mode-buttons">
             <button :class="{'mode-button': true, active: wheelMode==='classic'}"
-                    @click="setWheelMode('classic')">
-              <span class="mode-emoji">🎨</span>
-              <span>Classic</span>
-              <small class="mode-caption">Truyền thống, rõ nét</small>
-            </button>
+                    @click="setWheelMode('classic')">Classic</button>
             <button :class="{'mode-button': true, active: wheelMode==='modern'}"
-                    @click="setWheelMode('modern')">
-              <span class="mode-emoji">🕹️</span>
-              <span>Modern</span>
-              <small class="mode-caption">Bóng đẹp, hiện đại</small>
-            </button>
+                    @click="setWheelMode('modern')">Modern</button>
             <button :class="{'mode-button': true, active: wheelMode==='minimal'}"
-                    @click="setWheelMode('minimal')">
-              <span class="mode-emoji">📊</span>
-              <span>Minimal</span>
-              <small class="mode-caption">Tối giản, tối ưu in ấn</small>
-            </button>
+                    @click="setWheelMode('minimal')">Minimal</button>
           </div>
         </div>
 
@@ -278,14 +266,14 @@ export default {
         }
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("id", pathId);
-        path.setAttribute("d", `M ${pathStart.x} ${pathStart.y} A ${textRadius} ${textRadius} 0 ${isBottomHalf ? 0 : 1} ${pathEnd.x} ${pathEnd.y}`);
+        path.setAttribute("d", `M ${pathStart.x} ${pathStart.y} A ${textRadius} ${textRadius} 0 0 ${isBottomHalf ? 0 : 1} ${pathEnd.x} ${pathEnd.y}`);
         path.setAttribute("fill", "none");
         defs.appendChild(path);
         const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
         textEl.setAttribute("fill", "#fff");
         textEl.setAttribute("font-size", "12px");
         textEl.setAttribute("font-weight", "bold");
-        const textPathElement = document.createElementNS("http://www.w3.org/1999/xlink", "textPath");
+        const textPathElement = document.createElementNS("http://www.w3.org/2000/svg", "textPath");
         textPathElement.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `#${pathId}`);
         textPathElement.setAttribute("startOffset", "50%");
         textPathElement.setAttribute("text-anchor", "middle");
@@ -615,37 +603,37 @@ body {
 
 .mode-buttons {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
 }
+
 .mode-button {
-  min-width: 100px;
-  min-height: 48px;
-  padding: 0.5rem 1.2rem 0.7rem 1.2rem;
-  font-size: 1.1rem;
-  border: 2px solid #dedcff;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
   background: #fff;
-  border-radius: 18px;
-  font-weight: bold;
+  border-radius: 999px;
+  font-size: 0.9rem;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 9px rgba(136,123,233,0.06);
   cursor: pointer;
-  transition: box-shadow 0.22s, background 0.22s, color 0.22s, border 0.22s;
+  transition: background 0.3s ease, border 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  color: #333; /* Màu chữ mặc định */
   outline: none;
 }
-.mode-button.active {
-  background: linear-gradient(98deg, #c0e5ff 0%, #e5d8ff 100%);
-  border-color: #007bff;
-  color: #35377a;
-  box-shadow: 0 6px 16px 0 #B8BFFF55;
-}
+
 .mode-button:focus {
   outline: none;
-  box-shadow: 0 0 0 3px #b1e1ffcc;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
 }
+
 .mode-button:hover {
-  background: #f7faff;
-  border-color: #b390fb;
-  color: #443663;
+  background: #f0f0f0; /* Màu khi hover nhẹ nhàng */
+  border-color: #bbb;
+}
+
+.mode-button.active {
+  background: #007bff; /* Màu nền khi chọn */
+  border-color: #0056b3;
+  color: #fff; /* Đảm bảo chữ luôn hiển thị rõ ràng */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* Areas Container */
