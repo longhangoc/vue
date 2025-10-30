@@ -25,11 +25,25 @@
         <!-- Wheel Mode Switch: Segmented Control -->
         <div class="wheel-mode-switch">
           <span class="mode-label">Chọn giao diện bánh xe:</span>
-          <div class="mode-buttons">
+          <div class="mode-buttons fancy-modes">
             <button :class="{'mode-button': true, active: wheelMode==='classic'}"
-                    @click="setWheelMode('classic')">Classic</button>
-            <button :class="{'mode-button': true, active: wheelMode==='cute'}"
-                    @click="setWheelMode('cute')">Kitty Cute</button>
+                    @click="setWheelMode('classic')">
+              <span class="mode-emoji">🎨</span>
+              <span>Classic</span>
+              <small class="mode-caption">Truyền thống, rõ nét</small>
+            </button>
+            <button :class="{'mode-button': true, active: wheelMode==='modern'}"
+                    @click="setWheelMode('modern')">
+              <span class="mode-emoji">🕹️</span>
+              <span>Modern</span>
+              <small class="mode-caption">Bóng đẹp, hiện đại</small>
+            </button>
+            <button :class="{'mode-button': true, active: wheelMode==='minimal'}"
+                    @click="setWheelMode('minimal')">
+              <span class="mode-emoji">📊</span>
+              <span>Minimal</span>
+              <small class="mode-caption">Tối giản, tối ưu in ấn</small>
+            </button>
           </div>
         </div>
 
@@ -186,8 +200,10 @@ export default {
     drawWheel() {
       if (this.wheelMode === 'classic') {
         this.drawClassicWheel();
-      } else if (this.wheelMode === 'cute') {
-        this.drawCuteWheel();
+      } else if (this.wheelMode === 'modern') {
+        this.drawModernWheel();
+      } else if (this.wheelMode === 'minimal') {
+        this.drawMinimalWheel();
       }
     },
     // --- Giao diện Classic ---
@@ -373,114 +389,80 @@ export default {
         svg.appendChild(textEl);
       });
     },
-    // --- Giao diện dễ thương kiểu pastel cute ---
-    drawCuteWheel() {
-      // Pastel sắc nét, dễ nhìn hơn
-      const pastelColors = [ '#f9d2ec', '#a4e2ff', '#fff2b2', '#d1fdff', '#e5ffd8', '#ffe8f0', '#f6dfeb', '#ffd6f6', '#e2d1ff', '#fff0e6', '#bbead7', '#d5ceea'];
-      const cuteIcons = ['🐰','🐻','🦄','🐱','🐥','🍭','🥑','🌸','🎀','🍉','🧸','🦊'];
+    // --- Giao diện Minimal ---
+    drawMinimalWheel() {
       const svg = this.$refs.wheelSvg;
       const centerX = 250, centerY = 250;
       const maxRadius = 200;
       svg.innerHTML = '';
-      // Nền trắng sữa
-      const bg = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      bg.setAttribute("cx", centerX);
-      bg.setAttribute("cy", centerY);
-      bg.setAttribute("r", maxRadius + 28);
-      bg.setAttribute("fill", "#fffcfa");
-      svg.appendChild(bg);
-      // Vẽ vòng ngoài nhẹ
+      // Vẽ các vòng tròn dashed
       for (let i = 1; i <= 10; i++) {
         const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
         circle.setAttribute("cx", centerX);
         circle.setAttribute("cy", centerY);
         circle.setAttribute("r", maxRadius * i / 10);
         circle.setAttribute("fill", "none");
-        circle.setAttribute("stroke", '#f3e7f0');
-        circle.setAttribute("stroke-width", "2");
+        circle.setAttribute("stroke", "#ccc");
+        circle.setAttribute("stroke-dasharray", "4 2");
+        circle.setAttribute("stroke-width", "1");
         svg.appendChild(circle);
       }
-      // Vẽ các sector
       const angleStep = (2 * Math.PI) / this.areas.length;
       this.areas.forEach((area, i) => {
-        const pastel = pastelColors[i % pastelColors.length];
-        const icon = cuteIcons[i % cuteIcons.length];
-        const startAngle = i * angleStep - Math.PI/2;
-        const endAngle = (i + 1) * angleStep - Math.PI/2;
-        // Vùng pastel từng sector
-        const x1 = centerX + maxRadius * Math.cos(startAngle);
-        const y1 = centerY + maxRadius * Math.sin(startAngle);
-        const x2 = centerX + maxRadius * Math.cos(endAngle);
-        const y2 = centerY + maxRadius * Math.sin(endAngle);
-        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        const largeArc = (endAngle - startAngle) > Math.PI ? 1 : 0;
-        const d = `M ${centerX} ${centerY} L ${x1} ${y1} A ${maxRadius} ${maxRadius} 0 ${largeArc} 1 ${x2} ${y2} Z`;
-        path.setAttribute("d", d);
-        path.setAttribute("fill", pastel);
-        path.setAttribute("stroke", "#e0baff");
-        path.setAttribute("stroke-width", "3");
-        svg.appendChild(path);
-        // Vẽ phần giá trị
-        const valueRadius = maxRadius * (area.value / 10);
-        const x1v = centerX + valueRadius * Math.cos(startAngle);
-        const y1v = centerY + valueRadius * Math.sin(startAngle);
-        const x2v = centerX + valueRadius * Math.cos(endAngle);
-        const y2v = centerY + valueRadius * Math.sin(endAngle);
-        const pathV = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        const dV = `M ${centerX} ${centerY} L ${x1v} ${y1v} A ${valueRadius} ${valueRadius} 0 ${largeArc} 1 ${x2v} ${y2v} Z`;
-        pathV.setAttribute("d", dV);
-        pathV.setAttribute("fill", pastel);
-        pathV.setAttribute("fill-opacity", "0.81");
-        pathV.setAttribute("stroke", pastel);
-        pathV.setAttribute("stroke-width", "1");
-        svg.appendChild(pathV);
-        // Số to giữa sector
+        const startAngle = i * angleStep - Math.PI / 2;
+        const endAngle = (i + 1) * angleStep - Math.PI / 2;
         const midAngle = (startAngle + endAngle) / 2;
-        const textRadius = valueRadius * 0.55 + maxRadius*0.08;
-        const tx = centerX + textRadius * Math.cos(midAngle);
-        const ty = centerY + textRadius * Math.sin(midAngle) + 2;
-        const valueText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        valueText.setAttribute("x", tx);
-        valueText.setAttribute("y", ty);
-        valueText.setAttribute("fill", "#b8308b");
-        valueText.setAttribute("font-size", "2.1em");
-        valueText.setAttribute("font-weight", "bold");
-        valueText.setAttribute("text-anchor", "middle");
-        valueText.setAttribute("dominant-baseline", "middle");
-        valueText.setAttribute("style", "text-shadow: 1px 1px 2px #fff,0 0 8px #f6e1f9;font-family: 'Baloo 2', 'Comic Sans MS', 'Arial Rounded MT Bold', Arial, sans-serif;");
-        valueText.textContent = area.value;
-        svg.appendChild(valueText);
-        // Label cute: icon + tên, tím nổi hoặc trắng nếu nền đậm
-        const labelRadius = valueRadius * 1.45 < maxRadius * 0.75 ? maxRadius * 0.74 : valueRadius * 1.41;
-        const lx = centerX + labelRadius * Math.cos(midAngle);
-        const ly = centerY + labelRadius * Math.sin(midAngle) + 8;
-        const labelText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        labelText.setAttribute("x", lx);
-        labelText.setAttribute("y", ly);
-        let labelCol = i % 2 === 0 ? "#7240c2" : "#fff";
-        labelText.setAttribute("fill", labelCol);
-        labelText.setAttribute("font-size", "1.18em");
-        labelText.setAttribute("font-weight", "bold");
-        labelText.setAttribute("text-anchor", "middle");
-        labelText.setAttribute("dominant-baseline", "middle");
-        labelText.setAttribute("style", "font-family: 'Baloo 2', 'Comic Sans MS', 'Arial Rounded MT Bold', Arial, sans-serif;stroke:#fff;stroke-width:0.8px;text-shadow:0 0 8px #fff1ff;");
-        labelText.textContent = icon + ' ' + area.name;
-        svg.appendChild(labelText);
-      });
-      // Đường chia sector pastel nét rõ
-      for(let i = 0; i < this.areas.length; i++) {
-        const angle = i * angleStep - Math.PI/2;
-        const x = centerX + maxRadius * Math.cos(angle);
-        const y = centerY + maxRadius * Math.sin(angle);
+        // Vẽ đường phân cách
+        const x = centerX + maxRadius * Math.cos(startAngle);
+        const y = centerY + maxRadius * Math.sin(startAngle);
         const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
         line.setAttribute("x1", centerX);
         line.setAttribute("y1", centerY);
         line.setAttribute("x2", x);
         line.setAttribute("y2", y);
-        line.setAttribute("stroke", "#e0baff");
-        line.setAttribute("stroke-width", "2");
+        line.setAttribute("stroke", "#aaa");
+        line.setAttribute("stroke-width", "1");
         svg.appendChild(line);
-      }
+        // Vẽ minimal value arc
+        const valueRadius = maxRadius * (area.value / 10);
+        const x1Val = centerX + valueRadius * Math.cos(startAngle);
+        const y1Val = centerY + valueRadius * Math.sin(startAngle);
+        const x2Val = centerX + valueRadius * Math.cos(endAngle);
+        const y2Val = centerY + valueRadius * Math.sin(endAngle);
+        const largeArcFlag = (endAngle - startAngle) <= Math.PI ? 0 : 1;
+        const d = `M ${x1Val} ${y1Val} A ${valueRadius} ${valueRadius} 0 ${largeArcFlag} 1 ${x2Val} ${y2Val}`;
+        const arcPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        arcPath.setAttribute("d", d);
+        arcPath.setAttribute("fill", "none");
+        arcPath.setAttribute("stroke", area.color);
+        arcPath.setAttribute("stroke-width", "4");
+        arcPath.setAttribute("stroke-linecap", "round");
+        svg.appendChild(arcPath);
+        // Vẽ text ở ngoài cùng
+        const textRadius = maxRadius * 0.9;
+        const textX = centerX + textRadius * Math.cos(midAngle);
+        const textY = centerY + textRadius * Math.sin(midAngle);
+        const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        textEl.setAttribute("x", textX);
+        textEl.setAttribute("y", textY);
+        textEl.setAttribute("fill", "#333");
+        textEl.setAttribute("font-size", "12px");
+        textEl.setAttribute("text-anchor", "middle");
+        textEl.setAttribute("dominant-baseline", "middle");
+        textEl.textContent = area.name;
+        svg.appendChild(textEl);
+      });
+      // Vẽ đường chia cuối cùng
+      const lastLineX = centerX + maxRadius * Math.cos(2 * Math.PI - Math.PI / 2);
+      const lastLineY = centerY + maxRadius * Math.sin(2 * Math.PI - Math.PI / 2);
+      const lastLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      lastLine.setAttribute("x1", centerX);
+      lastLine.setAttribute("y1", centerY);
+      lastLine.setAttribute("x2", lastLineX);
+      lastLine.setAttribute("y2", lastLineY);
+      lastLine.setAttribute("stroke", "#aaa");
+      lastLine.setAttribute("stroke-width", "1");
+      svg.appendChild(lastLine);
     },
     saveAsSVG() {
       const svg = this.$refs.wheelSvg;
@@ -636,34 +618,53 @@ body {
   gap: 0.5rem;
 }
 
-.mode-button {
-  padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
+.fancy-modes {
+  display: flex;
+  gap: 1.4rem;
+}
+.fancy-modes .mode-button {
+  min-width: 110px;
+  min-height: 72px;
+  padding: 0.5rem 1.2rem 0.7rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #dedcff;
   background: #fff;
-  border-radius: 999px;
-  font-size: 0.9rem;
+  border-radius: 18px;
+  font-size: 1.1rem;
+  font-weight: bold;
   letter-spacing: 0.5px;
+  box-shadow: 0 2px 9px rgba(136,123,233,0.06);
   cursor: pointer;
-  transition: background 0.3s ease, border 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-  color: #333; /* Màu chữ mặc định */
+  transition: box-shadow 0.22s, background 0.22s, color 0.22s, border 0.22s;
+}
+.fancy-modes .mode-button .mode-emoji {
+  font-size: 2rem;
+  margin-bottom: 0.1em;
+}
+.fancy-modes .mode-button .mode-caption {
+  font-size: 0.86em;
+  font-weight: 400;
+  opacity: 0.7;
+  margin-top: 0.23em;
+  color: #6d6b87;
+}
+.fancy-modes .mode-button.active {
+  background: linear-gradient(98deg, #c0e5ff 0%, #e5d8ff 100%);
+  border-color: #007bff;
+  color: #35377a;
+  box-shadow: 0 6px 16px 0 #B8BFFF55;
+}
+.fancy-modes .mode-button:focus {
   outline: none;
+  box-shadow: 0 0 0 3px #b1e1ffcc;
 }
-
-.mode-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
-}
-
-.mode-button:hover {
-  background: #f0f0f0; /* Màu khi hover nhẹ nhàng */
-  border-color: #bbb;
-}
-
-.mode-button.active {
-  background: #007bff; /* Màu nền khi chọn */
-  border-color: #0056b3;
-  color: #fff; /* Đảm bảo chữ luôn hiển thị rõ ràng */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.fancy-modes .mode-button:hover {
+  background: #f8f9ff;
+  border-color: #b390fb;
+  color: #443663;
 }
 
 /* Areas Container */
