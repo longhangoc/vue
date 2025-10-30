@@ -256,9 +256,9 @@ export default {
         outerArc.setAttribute("stroke", "#000");
         outerArc.setAttribute("stroke-width", "2");
         svg.appendChild(outerArc);
-        // Vẽ text path cho tên lĩnh vực
+        // Vẽ text path cho tên lĩnh vực - bo quanh theo sector, rõ hơn trước
         const pathId = `textPath${i}`;
-        const textRadius = maxRadius + 20;
+        const textRadius = maxRadius + 10; // gần viền màu hơn, tránh quá xa ngoài trắng
         const isBottomHalf = midAngle > 0 && midAngle < Math.PI;
         let pathStart, pathEnd;
         if (isBottomHalf) {
@@ -275,7 +275,7 @@ export default {
         defs.appendChild(path);
         const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
         textEl.setAttribute("fill", "#333");
-        textEl.setAttribute("font-size", "12px");
+        textEl.setAttribute("font-size", "17px");
         textEl.setAttribute("font-weight", "bold");
         const textPathElement = document.createElementNS("http://www.w3.org/1999/xlink", "textPath");
         textPathElement.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `#${pathId}`);
