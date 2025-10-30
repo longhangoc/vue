@@ -375,40 +375,39 @@ export default {
     },
     // --- Giao diện dễ thương kiểu pastel cute ---
     drawCuteWheel() {
-      const pastelColors = [
-        '#ffecd2', '#a0d8ef', '#fdcbf1', '#ffe6fa', '#d1fdff', '#e2f0cb', '#f6dfeb', '#ffd6e0', '#e4c1f9', '#fff1e6', '#b5ead7', '#c7ceea'
-      ];
+      // Pastel sắc nét, dễ nhìn hơn
+      const pastelColors = [ '#f9d2ec', '#a4e2ff', '#fff2b2', '#d1fdff', '#e5ffd8', '#ffe8f0', '#f6dfeb', '#ffd6f6', '#e2d1ff', '#fff0e6', '#bbead7', '#d5ceea'];
       const cuteIcons = ['🐰','🐻','🦄','🐱','🐥','🍭','🥑','🌸','🎀','🍉','🧸','🦊'];
       const svg = this.$refs.wheelSvg;
       const centerX = 250, centerY = 250;
       const maxRadius = 200;
       svg.innerHTML = '';
-      // Nền trắng sữa bo mềm
+      // Nền trắng sữa
       const bg = document.createElementNS("http://www.w3.org/2000/svg", "circle");
       bg.setAttribute("cx", centerX);
       bg.setAttribute("cy", centerY);
       bg.setAttribute("r", maxRadius + 28);
-      bg.setAttribute("fill", "#fffdfa");
+      bg.setAttribute("fill", "#fffcfa");
       svg.appendChild(bg);
-      // Vẽ vòng ngoài soft
+      // Vẽ vòng ngoài nhẹ
       for (let i = 1; i <= 10; i++) {
         const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
         circle.setAttribute("cx", centerX);
         circle.setAttribute("cy", centerY);
         circle.setAttribute("r", maxRadius * i / 10);
         circle.setAttribute("fill", "none");
-        circle.setAttribute("stroke", '#f5e1ee');
-        circle.setAttribute("stroke-width", "2.2");
+        circle.setAttribute("stroke", '#f3e7f0');
+        circle.setAttribute("stroke-width", "2");
         svg.appendChild(circle);
       }
-      // Vẽ các sector pastel + cute icon/label
+      // Vẽ các sector
       const angleStep = (2 * Math.PI) / this.areas.length;
       this.areas.forEach((area, i) => {
         const pastel = pastelColors[i % pastelColors.length];
         const icon = cuteIcons[i % cuteIcons.length];
         const startAngle = i * angleStep - Math.PI/2;
         const endAngle = (i + 1) * angleStep - Math.PI/2;
-        // Vùng pastel bo cung
+        // Vùng pastel từng sector
         const x1 = centerX + maxRadius * Math.cos(startAngle);
         const y1 = centerY + maxRadius * Math.sin(startAngle);
         const x2 = centerX + maxRadius * Math.cos(endAngle);
@@ -418,11 +417,10 @@ export default {
         const d = `M ${centerX} ${centerY} L ${x1} ${y1} A ${maxRadius} ${maxRadius} 0 ${largeArc} 1 ${x2} ${y2} Z`;
         path.setAttribute("d", d);
         path.setAttribute("fill", pastel);
-        path.setAttribute("stroke", "#ffe2ff");
-        path.setAttribute("stroke-width", "3.3");
-        path.setAttribute("filter", "drop-shadow(0 0 6px #ffe6fa88)");
+        path.setAttribute("stroke", "#e0baff");
+        path.setAttribute("stroke-width", "3");
         svg.appendChild(path);
-        // Vẽ sector value "kem" pastel nổi bật hơn
+        // Vẽ phần giá trị
         const valueRadius = maxRadius * (area.value / 10);
         const x1v = centerX + valueRadius * Math.cos(startAngle);
         const y1v = centerY + valueRadius * Math.sin(startAngle);
@@ -432,43 +430,44 @@ export default {
         const dV = `M ${centerX} ${centerY} L ${x1v} ${y1v} A ${valueRadius} ${valueRadius} 0 ${largeArc} 1 ${x2v} ${y2v} Z`;
         pathV.setAttribute("d", dV);
         pathV.setAttribute("fill", pastel);
-        pathV.setAttribute("fill-opacity", "0.87");
+        pathV.setAttribute("fill-opacity", "0.81");
         pathV.setAttribute("stroke", pastel);
         pathV.setAttribute("stroke-width", "1");
         svg.appendChild(pathV);
-        // Hiện số lớn giữa sector
+        // Số to giữa sector
         const midAngle = (startAngle + endAngle) / 2;
-        const textRadius = valueRadius * 0.55;
+        const textRadius = valueRadius * 0.55 + maxRadius*0.08;
         const tx = centerX + textRadius * Math.cos(midAngle);
         const ty = centerY + textRadius * Math.sin(midAngle) + 2;
         const valueText = document.createElementNS("http://www.w3.org/2000/svg", "text");
         valueText.setAttribute("x", tx);
         valueText.setAttribute("y", ty);
-        valueText.setAttribute("fill", pastel);
-        valueText.setAttribute("font-size", "2em");
+        valueText.setAttribute("fill", "#b8308b");
+        valueText.setAttribute("font-size", "2.1em");
         valueText.setAttribute("font-weight", "bold");
         valueText.setAttribute("text-anchor", "middle");
         valueText.setAttribute("dominant-baseline", "middle");
-        valueText.setAttribute("style", "font-family: 'Comic Sans MS', 'Baloo 2', 'Arial Rounded MT Bold', Arial, sans-serif;");
+        valueText.setAttribute("style", "text-shadow: 1px 1px 2px #fff,0 0 8px #f6e1f9;font-family: 'Baloo 2', 'Comic Sans MS', 'Arial Rounded MT Bold', Arial, sans-serif;");
         valueText.textContent = area.value;
         svg.appendChild(valueText);
-        // Hiện tên lĩnh vực giữa sector kèm icon đáng yêu
-        const labelRadius = valueRadius * 1.15 < maxRadius * 0.81 ? maxRadius * 0.8 : valueRadius * 1.12;
+        // Label cute: icon + tên, tím nổi hoặc trắng nếu nền đậm
+        const labelRadius = valueRadius * 1.45 < maxRadius * 0.75 ? maxRadius * 0.74 : valueRadius * 1.41;
         const lx = centerX + labelRadius * Math.cos(midAngle);
-        const ly = centerY + labelRadius * Math.sin(midAngle) + 10;
+        const ly = centerY + labelRadius * Math.sin(midAngle) + 8;
         const labelText = document.createElementNS("http://www.w3.org/2000/svg", "text");
         labelText.setAttribute("x", lx);
         labelText.setAttribute("y", ly);
-        labelText.setAttribute("fill", "#f47cc3");
-        labelText.setAttribute("font-size", "1.06em");
+        let labelCol = i % 2 === 0 ? "#7240c2" : "#fff";
+        labelText.setAttribute("fill", labelCol);
+        labelText.setAttribute("font-size", "1.18em");
         labelText.setAttribute("font-weight", "bold");
         labelText.setAttribute("text-anchor", "middle");
         labelText.setAttribute("dominant-baseline", "middle");
-        labelText.setAttribute("style", "font-family: 'Comic Sans MS', 'Baloo 2', 'Arial Rounded MT Bold', Arial, sans-serif;");
+        labelText.setAttribute("style", "font-family: 'Baloo 2', 'Comic Sans MS', 'Arial Rounded MT Bold', Arial, sans-serif;stroke:#fff;stroke-width:0.8px;text-shadow:0 0 8px #fff1ff;");
         labelText.textContent = icon + ' ' + area.name;
         svg.appendChild(labelText);
       });
-      // Đường phân cách sector pastel nhẹ
+      // Đường chia sector pastel nét rõ
       for(let i = 0; i < this.areas.length; i++) {
         const angle = i * angleStep - Math.PI/2;
         const x = centerX + maxRadius * Math.cos(angle);
@@ -478,7 +477,7 @@ export default {
         line.setAttribute("y1", centerY);
         line.setAttribute("x2", x);
         line.setAttribute("y2", y);
-        line.setAttribute("stroke", "#ffc4e6");
+        line.setAttribute("stroke", "#e0baff");
         line.setAttribute("stroke-width", "2");
         svg.appendChild(line);
       }
