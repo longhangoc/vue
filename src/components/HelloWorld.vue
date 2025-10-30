@@ -274,7 +274,7 @@ export default {
         path.setAttribute("fill", "none");
         defs.appendChild(path);
         const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        textEl.setAttribute("fill", "#fff");
+        textEl.setAttribute("fill", "#333");
         textEl.setAttribute("font-size", "12px");
         textEl.setAttribute("font-weight", "bold");
         const textPathElement = document.createElementNS("http://www.w3.org/1999/xlink", "textPath");
