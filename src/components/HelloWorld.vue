@@ -80,6 +80,19 @@
             <span class="btn-icon">↓</span> Tải PNG
           </button>
         </div>
+        <div v-if="showIOSGuidePopup" class="overlay-guide">
+          <div class="guide-popup">
+            <button class="close-btn" @click="showIOSGuidePopup = false">×</button>
+            <h3>Hướng dẫn lưu ảnh vào Thư viện trên iPhone/iPad</h3>
+            <ol>
+              <li>Nhấn vào file PNG vừa tải ở dưới trình duyệt (hoặc tìm trong mục "Tệp đã tải xuống").</li>
+              <li>Ảnh sẽ mở ra một trang mới. Nhấn giữ (hold) vào ảnh trong vài giây.</li>
+              <li>Chọn “Lưu hình ảnh” (Save Image) từ menu hiện ra.</li>
+              <li>Ảnh sẽ tự động lưu vào thư viện ảnh (Photos) của thiết bị!</li>
+            </ol>
+            <div class="tip">Nếu không thấy ảnh trong Photos, hãy kiểm tra quyền cấp cho trình duyệt.</div>
+          </div>
+        </div>
       </section>
 
       <!-- Wheel Display -->
@@ -109,7 +122,8 @@ export default {
       ],
       undoStack: [],
       redoStack: [],
-      wheelMode: 'classic' // Các giá trị: 'classic', 'modern', 'minimal'
+      wheelMode: 'classic', // Các giá trị: 'classic', 'modern', 'minimal'
+      showIOSGuidePopup: false
     }
   },
   methods: {
@@ -266,14 +280,14 @@ export default {
         }
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("id", pathId);
-        path.setAttribute("d", `M ${pathStart.x} ${pathStart.y} A ${textRadius} ${textRadius} 0 0 ${isBottomHalf ? 0 : 1} ${pathEnd.x} ${pathEnd.y}`);
+        path.setAttribute("d", `M ${pathStart.x} ${pathStart.y} A ${textRadius} ${textRadius} 0 ${isBottomHalf ? 0 : 1} ${pathEnd.x} ${pathEnd.y}`);
         path.setAttribute("fill", "none");
         defs.appendChild(path);
         const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
         textEl.setAttribute("fill", "#fff");
         textEl.setAttribute("font-size", "12px");
         textEl.setAttribute("font-weight", "bold");
-        const textPathElement = document.createElementNS("http://www.w3.org/2000/svg", "textPath");
+        const textPathElement = document.createElementNS("http://www.w3.org/1999/xlink", "textPath");
         textPathElement.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `#${pathId}`);
         textPathElement.setAttribute("startOffset", "50%");
         textPathElement.setAttribute("text-anchor", "middle");
@@ -486,8 +500,17 @@ export default {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+        // Nếu là iOS thì bật popup hướng dẫn
+        if (this.isIOS()) {
+          this.showIOSGuidePopup = true;
+        } else {
+          this.showIOSGuidePopup = false;
+        }
       };
       img.src = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(unescape(encodeURIComponent(source)));
+    },
+    isIOS() {
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     }
   },
   mounted() {
@@ -952,5 +975,59 @@ body {
     order: -1;
     margin-bottom: var(--spacing-sm);
   }
+}
+.overlay-guide {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.32);
+  display: flex;
+  align-items: center; justify-content: center;
+  z-index: 10002;
+}
+.guide-popup {
+  background: #fff;
+  padding: 2.2em 1.5em 1em 1.5em;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px #2223bb32;
+  max-width: 90vw; min-width: 310px; max-width: 410px;
+  position: relative;
+  font-size: 1.07em;
+  text-align: left;
+}
+.guide-popup h3 {
+  color: #443bb9;
+  margin-bottom: 0.7em;
+  font-size: 1.17em;
+}
+.guide-popup ol {
+  padding-left: 1.5em;
+  margin-bottom: 0.8em;
+}
+.guide-popup li {
+  margin-bottom: 0.6em;
+  line-height: 1.5;
+}
+.guide-popup .tip {
+  color: #e00a7e;
+  background: #fff3fb;
+  font-size: 0.98em;
+  border-radius: 5px;
+  padding: 4px 9px;
+}
+.close-btn {
+  position: absolute;
+  top: 12px; right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.32em;
+  color: #7c7bb0;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: .78;
+  transition: opacity 0.16s;
+}
+.close-btn:hover {
+  opacity: 1;
+  color: #e00a7e;
 }
 </style>
