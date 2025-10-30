@@ -615,54 +615,35 @@ body {
 
 .mode-buttons {
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
 }
-
-.fancy-modes {
-  display: flex;
-  gap: 1.4rem;
-}
-.fancy-modes .mode-button {
-  min-width: 110px;
-  min-height: 72px;
+.mode-button {
+  min-width: 100px;
+  min-height: 48px;
   padding: 0.5rem 1.2rem 0.7rem 1.2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  font-size: 1.1rem;
   border: 2px solid #dedcff;
   background: #fff;
   border-radius: 18px;
-  font-size: 1.1rem;
   font-weight: bold;
   letter-spacing: 0.5px;
   box-shadow: 0 2px 9px rgba(136,123,233,0.06);
   cursor: pointer;
   transition: box-shadow 0.22s, background 0.22s, color 0.22s, border 0.22s;
+  outline: none;
 }
-.fancy-modes .mode-button .mode-emoji {
-  font-size: 2rem;
-  margin-bottom: 0.1em;
-}
-.fancy-modes .mode-button .mode-caption {
-  font-size: 0.86em;
-  font-weight: 400;
-  opacity: 0.7;
-  margin-top: 0.23em;
-  color: #6d6b87;
-}
-.fancy-modes .mode-button.active {
+.mode-button.active {
   background: linear-gradient(98deg, #c0e5ff 0%, #e5d8ff 100%);
   border-color: #007bff;
   color: #35377a;
   box-shadow: 0 6px 16px 0 #B8BFFF55;
 }
-.fancy-modes .mode-button:focus {
+.mode-button:focus {
   outline: none;
   box-shadow: 0 0 0 3px #b1e1ffcc;
 }
-.fancy-modes .mode-button:hover {
-  background: #f8f9ff;
+.mode-button:hover {
+  background: #f7faff;
   border-color: #b390fb;
   color: #443663;
 }
