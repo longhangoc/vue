@@ -3,7 +3,7 @@
     <header class="wheel-header">
       <h1 class="text-gradient">Bánh Xe Cuộc Đời</h1>
       <p class="header-description">
-        hok bit noi j
+        Tùy chỉnh các lĩnh vực và mức độ để xem bánh xe thể hiện cuộc sống của bạn.
       </p>
     </header>
 
@@ -266,14 +266,14 @@ export default {
         }
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("id", pathId);
-        path.setAttribute("d", `M ${pathStart.x} ${pathStart.y} A ${textRadius} ${textRadius} 0 ${isBottomHalf ? 0 : 1} ${pathEnd.x} ${pathEnd.y}`);
+        path.setAttribute("d", `M ${pathStart.x} ${pathStart.y} A ${textRadius} ${textRadius} 0 0 ${isBottomHalf ? 0 : 1} ${pathEnd.x} ${pathEnd.y}`);
         path.setAttribute("fill", "none");
         defs.appendChild(path);
         const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
         textEl.setAttribute("fill", "#fff");
         textEl.setAttribute("font-size", "12px");
         textEl.setAttribute("font-weight", "bold");
-        const textPathElement = document.createElementNS("http://www.w3.org/1999/xlink", "textPath");
+        const textPathElement = document.createElementNS("http://www.w3.org/2000/svg", "textPath");
         textPathElement.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `#${pathId}`);
         textPathElement.setAttribute("startOffset", "50%");
         textPathElement.setAttribute("text-anchor", "middle");
